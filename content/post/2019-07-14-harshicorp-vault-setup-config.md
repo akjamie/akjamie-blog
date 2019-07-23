@@ -4,15 +4,16 @@ title: "Harshicorp Vault Setup Config and integration with spring boot"
 subtitle: "Vault secures, stores, and tightly controls access to tokens, passwords, certificates, API keys, and other secrets in modern computing"
 excerpt: ""
 description: "介绍用docker-compose安装Vault并配置nginx代理，并与spring cloud application进行集成"
-date: "2019-07-14"
+date: 2019-07-14 12:10:27
 author: "Jamie Zhang"
-image: "/img/2019-07-14-harshicorp-vault-setup-config/background.jpg"
+image: "/img/background-01.jpg"
 published: true
-categories: [ Tech ]
 tags:
     - Harshicorp Vault
     - Docker
     - Spring Cloud
+URL: "/2019/07/14/harshicorp-vault-setup-config/"
+categories: [ Tech ]
 ---
 # Install vault
 Prepare *docker-compose.yml*, content as below (just a sample here, please don't use it for production, there are more aspects should be considered)
