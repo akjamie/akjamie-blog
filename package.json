@@ -1,0 +1,22 @@
+{
+  "name": "akjamie.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "algolia": "atomic-algolia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akjamie/akjamie.github.io.git"
+  },
+  "author": "Jamie Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akjamie/akjamie.github.io/issues"
+  },
+  "homepage": "https://github.com/akjamie/akjamie.github.io#readme",
+  "description": "",
+  "dependencies": {
+    "atomic-algolia": "^0.3.17"
+  }
+}
