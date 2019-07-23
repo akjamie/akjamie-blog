@@ -1,7 +1,6 @@
 ---
-layout: post
 title: "AWS Serveless Application Model"
-date: 2019-07-23 13:36:10
+date: 2019-06-10 13:36:10
 subtitle: "AWS 无服务器应用程序模型 (AWS SAM) 是一个开源框架，可用于在 AWS 上构建无服务器应用程序。它包含用于定义无服务器应用程序的 AWS SAM 模板规范和用于构建、测试和部署无服务器应用程序的 AWS SAM 命令行界面 (AWS SAM CLI)"
 excerpt: "AWS 无服务器应用程序模型 (AWS SAM)"
 description: "基于python，演示AWS SAM的开发部署过程，含通过aws api gateway暴露api"
