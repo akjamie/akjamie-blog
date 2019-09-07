@@ -19,10 +19,10 @@ XA 是指由 X/Open 组织提出的分布式事务处理的规范. XA 规范主�
 目前，Oracle、Informix、DB2和Sybase等各大数据库厂家都提供对XA的支持。XA协议采用两阶段提交方式来管理分布式事务。
 ```
 由如上的信息中我们能看到，在xa的规范中定义了如下3个方面：  
-1. Transaction manager, 统筹管理多个resource manager
-2. Resource manager, 管理具体的XA resource
-3. Two-phase commit, 两阶段提交的方式
-**4.**Xid, 事务ID 用于区分事务 
+1. Transaction manager, 统筹管理多个resource manager  
+2. Resource manager, 管理具体的XA resource  
+3. Two-phase commit, 两阶段提交的方式  
+_4. Xid, 事务ID 用于区分事务_
 ## XA与JTA的联系
 jta是xa规范在java中的实现
 <img src='/img/2019-08-31-spring-global-transaction/xa-jta.png' style="height: 317px;margin-left: 15px;"/>
