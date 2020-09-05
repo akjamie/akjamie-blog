@@ -13,7 +13,7 @@ hasCJKLanguage = true
 home = ["HTML", "RSS", "Algolia"]
 
 [params]
-  header_image = "img/background-07.jpg"
+  header_image = "img/background-09.jpg"
   SEOTitle = "Jamie's Blog"
   description = "Jamie，Senior Software Engineer, Open source enthusiasts, PMP,Scrum master"
   keyword = "Jamie Zhang, 博客, 个人网站, 互联网, Web, 云原生, Kubernetes, 微服务, Microservice"
