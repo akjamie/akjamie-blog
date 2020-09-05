@@ -12,7 +12,7 @@ tags:
     - Docker
     - Spring Cloud
 URL: "/2019/07/14/harshicorp-vault-setup-config/"
-categories: [ Tech ]
+categories: [ Others ]
 ---
 # Install vault
 Prepare *docker-compose.yml*, content as below (just a sample here, please don't use it for production, there are more aspects should be considered)

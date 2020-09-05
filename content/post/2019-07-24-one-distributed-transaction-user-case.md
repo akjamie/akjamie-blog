@@ -11,7 +11,7 @@ tags:
      - Design
      - Distrubuted Transaction
      - Microservice
-categories: [ Tech ]
+categories: [ Microservice ]
 ---
 # 用户场景  
 在某企业app上做Payment业务，在app端准备好request data， 如debit account number, credit account number, amount, notes, 点击submit。  

@@ -10,7 +10,7 @@ published: true
 tags:
     - Shadowsocks
     - Proxychain
-categories: [ Tech ]
+categories: [ Others ]
 ---
 # 背景介绍
 很多时候我们由于great firewall，我们无法访问某些网站，这时候就需要用到网络代理来应对一些比较urgent的case，本文主要会介绍如何使用Shadowsocks 和 Proxychain来 setup linux network proxy，这样在命令行下都可以起到代理和转发的作用，而不仅限于浏览器的代理。

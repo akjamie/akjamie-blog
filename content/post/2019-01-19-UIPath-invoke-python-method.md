@@ -11,7 +11,7 @@ tags:
     - Python
     - UIPath
 URL: "/2019/01/19/UIPath-invoke-python-method/"
-categories: [ Tech ]
+categories: [ Others ]
 ---
 UIPath是一个非常不错的RPA(Robotic Process Automation) 工具和平台，并且有开源社区版本可以方便RPA爱好者去尝试，本文是介绍如何在UIPath下调用python的脚本中的方法并提取返回值
 

@@ -12,7 +12,7 @@ tags:
      - Let’s Encrypt
      - Nginx
 URL: "/2019/07/14/free-https-certs-docker-nginx/"
-categories: [ Tech ]
+categories: [ Others ]
 ---
 # Background
 **Let's Encrypt** is a [certificate authority](https://en.wikipedia.org/wiki/Certificate_authority "Certificate authority") that provides [X.509](https://en.wikipedia.org/wiki/X.509 "X.509") [certificates](https://en.wikipedia.org/wiki/Public_key_certificate "Public key certificate") for [Transport Layer Security](https://en.wikipedia.org/wiki/Transport_Layer_Security "Transport Layer Security") (TLS) encryption at no charge,The certificate is valid for 90 days, during which renewal can take place at anytime.

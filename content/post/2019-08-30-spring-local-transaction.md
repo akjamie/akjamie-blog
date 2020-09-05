@@ -6,7 +6,7 @@ date:        2019-08-30
 author:      "Jamie Zhang"
 image:       "/img/background-03.jpg"
 tags:        ["Spring", "Transaction Management"]
-categories:  ["Tech" ]
+categories:  ["Spring" ]
 ---
 # 事务特性和隔离级别
 ## 事务基础

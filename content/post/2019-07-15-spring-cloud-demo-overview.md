@@ -11,7 +11,7 @@ tags:
      - Spring Cloud
      - Spring Boot
      - Docker
-categories: [ Tech ]
+categories: [ Spring ]
 ---
 
 # Demo的介绍

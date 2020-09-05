@@ -11,7 +11,7 @@ tags:
      - Python
      - AWS SAM
      - Serveless
-categories: [ Tech ]
+categories: [ Cloud ]
 ---
 # AWS SAM - lambda demo 
 ## Demo User Case
