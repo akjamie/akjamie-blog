@@ -38,7 +38,7 @@ home = ["HTML", "RSS", "Algolia"]
   sidebar_avatar = "img/20190713213835-3.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
   featured_tags = true 
-  featured_condition_size = 2 
+  featured_condition_size = 1 
 
   # Baidu Analytics
   ba_track_id = ""

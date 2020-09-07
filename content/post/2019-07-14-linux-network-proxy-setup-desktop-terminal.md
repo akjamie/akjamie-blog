@@ -83,11 +83,11 @@ export no_proxy=localhost, 127.0.0.1
 ## Install proxychain
 >
 git clone https://github.com/rofl0r/proxychains-ng  
-cd proxychains-ng
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-make install-config
+cd proxychains-ng  
+./configure --prefix=/usr --sysconfdir=/etc  
+make  
+make install  
+make install-config  
 
 按步骤执行如上命令完成后，proxychain安装完成，并且默认的配置为：/etc/proxychains.conf
 
