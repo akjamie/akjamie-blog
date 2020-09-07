@@ -1,11 +1,11 @@
 ---
-title:       "GCP network connections(1)"
-subtitle:    ""
+title:       "GCP Network Connection (1)"
+subtitle:    "gcp network connections - VPC peering/VPN - poc"
 description: "gcp network connections - VPC peering/VPN - poc"
 date:        2020-09-07
 author:      "Jamie Zhang"
 image:       "img/background-10.jpg"
-tags:        ["GCP", "VPC", "Mongo", "AWS"]
+tags:        ["GCP", "VPC", "Mongo"]
 categories:  ["Cloud" ]
 published: true
 ---
