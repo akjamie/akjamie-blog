@@ -9,7 +9,7 @@ image: "/img/background-06.jpg"
 published: true
 tags:
      - Python
-     - AWS SAM
+     - AWS
      - Serveless
 categories: [ Cloud ]
 ---

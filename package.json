@@ -15,8 +15,12 @@
     "url": "https://github.com/akjamie/akjamie.github.io/issues"
   },
   "homepage": "https://github.com/akjamie/akjamie.github.io#readme",
-  "description": "",
+  "description": "Jamie's blog",
   "dependencies": {
-    "atomic-algolia": "^0.3.17"
+    "atomic-algolia": "^0.3.19"
+  },
+  "devDependencies": {
+    "core-js": "^3.7.0",
+    "fsevents": "^2.2.1"
   }
 }

@@ -9,8 +9,8 @@ image: "/img/background-05.jpg"
 published: true
 tags: 
      - Design
-     - Distrubuted Transaction
-     - Microservice
+     - Distributed Transaction
+     - Transaction Management
 categories: [ Microservice ]
 ---
 # 用户场景  

@@ -3,7 +3,7 @@ title:       "Liquibase"
 subtitle:    "Liquibase helps teams track, version, and deploy database schema and logic changes"
 description: "Adopt liquibase to manage the SQL script changes & deployment"
 date:        2019-10-20
-author:      "Jamie Zhang"
+author:      "Jamie Zhang"
 image:       "/img/background-06.jpg"
 tags:        ["Liquibase", "Database migration"]
 categories:  ["Others" ]

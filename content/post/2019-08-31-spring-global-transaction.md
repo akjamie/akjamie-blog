@@ -6,7 +6,7 @@ date:        2019-08-31
 author:      "Jamie Zhang"
 image:       "/img/background-03.jpg"
 tags:        ["Spring", "Transaction Management"]
-categories:  ["Spring" ]
+categories:  ["Microservice" ]
 ---
 先回顾上一篇sprint local transaction的内容，本地事务是用于指定资源，即单一数据源，其主要结构如下：
  ![](/img/2019-08-31-spring-global-transaction/spring-txn-local.png)

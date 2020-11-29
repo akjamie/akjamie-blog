@@ -83,14 +83,14 @@ gsutil cp -r gs://mongo-backup-repo/20200907 ./backup/
 mongorestore --gzip --archive= ./backup/20200907/test/users.bson.gz --db test
 ``` 
 ## Configure VPC Peering
-both side create VPC network peering
+### Create VPC network peering
 1. vpc peering from test-vpc-01 to test-vpc-02  
 <img src='/img/2020-09-07-gcp-network-connection/vpc-peering-01-02.png' style="height: 420px;margin-left: 0px;"/>
 
 2.vpc peering from test-vpc-02 to test-vpc-01
 <img src='/img/2020-09-07-gcp-network-connection/vpc-peering-02-01.png' style="height: 420px;margin-left: 0px;"/>
 
-3.test connectivity
+### Test connectivity
 1> ping from both side, should be successfully from both side.  
 
 2> install MongoDB shell on test-vm-02 to verify the mongo connection works as expected.  
@@ -102,8 +102,14 @@ sudo apt-get install -y mongodb-org-shell=4.4.0
 
 notes: _regarding how to secure the MongoDB access, please find the reference on the bottom of this page._
 
+## Resrictions for VPC peering
+__No subnet IP range overlap across peered VPC networks__  
+No subnet IP range can overlap with another subnet IP range in a peered VPC network.  
+Checks performed at VPC Network Peering setup    
+Checks performed at subnet creation in VPC Network Peering scenarios  
+__Tags and service accounts are not usable across peered networks__
+
 Userful References:  
 https://cloud.google.com/vpc/docs/using-vpc-peering  
 https://ciphertrick.com/setup-mongodb-authentication-connect-using-mongoose/  
-
 

@@ -11,7 +11,7 @@ image: "/img/background-03.jpg"
 published: true
 tags:
      - Spring Batch
-categories: [ Spring ]
+categories: [ Microservice ]
 ---
 Spring batch是轻量级，全面的批处理框架，旨在开发对企业系统日常运营至关重要的强大批处理应用程序。
 
