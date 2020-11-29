@@ -11,9 +11,9 @@ categories:  ["Microservice"]
 this page shows how to run a spring boot application on local K8S environment.
 
 # Objectives
-1.create spring boot application and build a docker image
-2.create local persistent volume to share the files from host
-3.create deployment and service to run this application and expose for external access. 
+1.create spring boot application and build a docker image  
+2.create local persistent volume to share the files from host  
+3.create deployment and service to run this application and expose for external access.   
 
 # Before you begin
 install docker desktop in local and enable local k8s cluster, more details please refer to docker official guide or k8s local
@@ -24,9 +24,9 @@ in this demo, created a simple config service using spring boot cloud config, so
 https://github.com/cloud-poc/config-service/tree/dev-k8s)
 
 ## Spring boot application - config-service
-1.use Spring Cloud Config to quickly implement a config service, please refer to spring cloud documents.
+1.use Spring Cloud Config to quickly implement a config service, please refer to spring cloud documents.  
 2.create a service config repos on git, in this demo, we will use the native config rather than points to git directly as 
-network delay caused by GFW.  
+network delay caused by GFW.    
 
 - service configs - spring: 
 ```
@@ -55,7 +55,7 @@ config.root-path: /Users/jamie/Documents/work-benches/workspace-20190524/service
 - config repo:
 <img src='/img/2020-11-29-run-application-on-k8s/config-repo-01.png' style="height: 150px;margin-left: 0px;"/>
 
-3.test if works
+3.test if works  
 to test if you can get the configs configured in above steps.  
 <img src='/img/2020-11-29-run-application-on-k8s/config-test-01.png' style="height: 600px;margin-left: 0px;"/>
 from above screenshot, the configs correctly responded from config server, then let's move to docker image build.
@@ -106,7 +106,7 @@ the files to the pod or container in Kubernates cluster. to achive this goal, wh
 2. create persistent volume - pv  
 3. create persistent volume claim - pvc  
 
-## create storage class
+## Create storage class
 config file - k8s-localpv-storage-class.yml
 ```
 kind: StorageClass
@@ -123,7 +123,7 @@ use command to create storage class
 kubectl apply -f k8s-localpv-storage-class.yml
 ```
 
-## create persistent volume
+## Create persistent volume
 config file - k8s-localpv-persistent-volume.yml
 ```
 apiVersion: v1
@@ -158,7 +158,7 @@ kubectl apply -f k8s-localpv-persistent-volume.yml
 ```
 https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 
-## create PVC
+## Create PVC
 config file - k8s-localpv-pv-claim.yml
 ```
 kind: PersistentVolumeClaim
@@ -173,7 +173,7 @@ spec:
     requests:
       storage: 100Mi
 ```
-## verify the resource created
+## Verify the resource created
 use kubectl command to check the resource we created in above 3 steps.
 
 ```
@@ -204,7 +204,7 @@ Events:                <none>
 ```
 
 # Deploy application and share the access entry
-## application deployment
+## Application deployment
 config for deployment in K8S
 ```
 apiVersion: apps/v1
