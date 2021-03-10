@@ -7,6 +7,7 @@ author:      "Jamie Zhang"
 image:       "/img/background-06.jpg"
 tags:        ["Liquibase", "Database migration"]
 categories:  ["Others" ]
+published: false
 ---
 # Simple introduction
 Liquibase is open source tool for database change and deployment management. provides a database agnostic way to deliver fast, safe, repeatable database deployments, more details please refer to [Liquibase website](https://www.liquibase.org)  
