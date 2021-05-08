@@ -36,7 +36,7 @@ Secondly, register GCP service account, which has free credit, you could try som
 Thirdly, walk through the official docs - [products](https://cloud.google.com/products), mainly focus on the concepts and best practices. it would take around 2 weeks(1~2 hours per day).  i also would like to recommand to do some practices on the GCP with your free account.
 
 Fourthly, to master the sample study cases which will appear in your later exam.  
-[MountKrik](https://jayendrapatil.com/google-cloud-mountkirk-games-case-study/)
+[MountKrik](https://jayendrapatil.com/google-cloud-mountkirk-games-case-study/)  
 [Dress4Win](https://jayendrapatil.com/google-cloud-dress4win-case-study/)  
 [TerramEarth](https://jayendrapatil.com/google-cloud-terramearth-case-study/)
 
