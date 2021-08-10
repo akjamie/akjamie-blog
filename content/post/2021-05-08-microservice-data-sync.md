@@ -1,7 +1,7 @@
 ---
 title:       "Microservice design - practice"
 subtitle:    "Data sync between systems"
-description: ""
+description: "To mark down a batch data sync accross system solution"
 date:        2021-05-08
 author:      "Jamie Zhang"
 image:       "/img/background-05.jpg"

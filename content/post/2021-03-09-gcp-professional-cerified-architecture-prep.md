@@ -1,7 +1,7 @@
 ---
 title:       "How i prepare the Google Cloud Professional Cloud Architect Certificate"
 subtitle:    ""
-description: "个人经验分享"
+description: "Experience sharing"
 date:        2021-03-09
 author:      "Jamie Zhang"
 image:       "/img/background-06.jpg"
