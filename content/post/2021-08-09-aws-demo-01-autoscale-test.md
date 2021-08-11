@@ -6,7 +6,7 @@ date:        2021-08-09
 author:      "Jamie Zhang"
 image:       ""
 tags:        ["AWS", "Cloud"]
-categories:  ["Tech" ]
+categories:  ["Cloud" ]
 ---
 
 I'm on the path of AWS Professinal Certified Architect exam preparation, want to document some key points in the demos for later review to enhance the understanding of knowledge. In this demo, i'm going to test the AWS auto scaling and utilize the EC2 network knowledges. 
