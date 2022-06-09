@@ -11,17 +11,15 @@ tags:
     - NoSQL
 categories: [ NoSQL ]
 ---
-# Redis基础回顾
-* Redis  有16个数据库，一般都使用0号库，使用select dbid 来切换db。
-* Redis是单线程 + 多路io服用技术
-* Redis vs memcache  
-	
-	 | Product| 架构模型 | 数据类型支持|  
-	 | :--------- | :------------- | :---------- |  
-	 | Redis | 单线程 + 多路io复用|  多种数据类型|  
-	 | Memcached | 多线程+锁|  单一数据类型 |
-	
-* Key 操作 
+# Redis基础
+##  Common知识
+- Redis  有16个数据库，一般都使用0号库，使用select dbid 来切换db。
+- Redis是单线程 + 多路io服用技术
+- Redis vs memcache  
+	- Redis ->  单线程 + 多路io复用 + 灵活支持多种数据类型
+    - Memcached -> 多线程+锁 + 单一数据类型
+
+- Key 操作 
 	- keys * - list keys
 	- expire key duration - set expire duration for key
 	- exists key - verify if key exists
@@ -50,6 +48,8 @@ OK
 	- dbsize - check total key size in current db
 	- flushdb - cleanup current db
 	- flushall - cleanup all dbs
+	
+## 5大数据结构
 * String 是redis最基本的类型，redis中字符串key和value最大可以存放512m
 	- setex key ttl value
 	- 存储方式为预分配冗余空间来减少内存的频繁分配
@@ -80,7 +80,130 @@ OK
 	- 底层数据结构，类似于Map<String, Double>/TreeSet内部元素按照score进行排序
 	- hash，关联元素value和权重，保证value的唯一性
 	- skiplist，给value排序，根据score的范围获取元素
-* 有序链表和跳跃表 
-	<img src='/img/2022-05-26-redis-basic/linkedlist-vs-skiplist.png style="height: 379px; margin-left: 0px;"/>
+	
+## 有序链表和跳跃表 
+简单比较如下图，查找51，跳跃表的查找性能相较于链表效会更好。
+<img src='/img/2022-05-26-redis-basic/linkedlist-vs-skiplist.png' style="height: 379px; margin-left: 0px;" />
+
+## 新数据类型
+* Bitmaps - 对位的操作
+	- 其本身不是一种数据类型，实际上就是字符串
+	- 可以对字符串的位进行操作
+	- 提供了单独的操作命令集
+	- 与set相比极大的节省内存空间，但存储内容有限
+```
+127.0.0.1:6379> setbit test:bitmaps:2 1 0
+(integer) 0
+127.0.0.1:6379> setbit test:bitmaps:2 2 0
+(integer) 0
+127.0.0.1:6379> setbit test:bitmaps:2 3 1
+(integer) 0
+127.0.0.1:6379> getbit test:bitmaps:1 1
+(integer) 0
+127.0.0.1:6379> getbit test:bitmaps:1 0
+(integer) 1
+```
+* HyperLogLog - 做基数统计，耗费12kb内存，可以计算近2^64个不同元素的技术
+	 - 相较于distinct，hash，set，bitmaps，更少的空间占用
+	 - 用降低数据精确度来换存储空间
+```
+127.0.0.1:6379> pfadd hyperloglog:pageview:001 'jamie' 'james' 'edward'
+(integer) 1
+127.0.0.1:6379> pfadd hyperloglog:pageview:001 'jamie' 
+(integer) 0
+127.0.0.1:6379> pfadd hyperloglog:pageview:001 'john' 'edward'
+(integer) 1
+127.0.0.1:6379> pfcount hyperloglog:pageview:001
+(integer) 4
+127.0.0.1:6379> pfadd hyperloglog:pageview:002 'john' 'edward'
+(integer) 1
+127.0.0.1:6379> pfmerge hyperloglog:pageview:summ hyperloglog:pageview:001 hyperloglog:pageview:002
+OK
+127.0.0.1:6379> pfcount hyperloglog:pageview:summ
+(integer) 4
+127.0.0.1:6379> get hyperloglog:pageview:summ
+"HYLL\x01\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00M\xca\x84^\xa1\x80I\x86\x84E]\x84D\xa9"
+```
+
+* Geospatial - 地理经纬度
+	- geohash保存地理位置的坐标
+	- geohash计算的字符串，可以反向解码出原来的经纬度
+	- 有序集合（zset）保存地理位置数据, member + geohash
+```
+127.0.0.1:6379> geoadd china:city:xian 108.84067296981812 34.23806027872841 lvdi
+(integer) 1
+127.0.0.1:6379> geoadd china:city:xian 108.88047695159912 34.22972243813365 gaoxinhospital
+(integer) 1
+127.0.0.1:6379> geoadd china:city:xian 108.84039402008057 34.2350800390342 zhenguanfu
+(integer) 1
+127.0.0.1:6379> geoadd china:city:xian 108.85704517364502 34.245226613720426 mincheng
+(integer) 1
+127.0.0.1:6379> geoadd china:city:xian 108.8686752319336 34.22915472534989 waishi
+(integer) 1
+127.0.0.1:6379> geopos china:city:xian lvdi
+1) 1) "108.84067565202713013"
+   2) "34.23805909783406065"
+127.0.0.1:6379> geodist china:city:xian lvdi zhenguanfu km
+"0.3323"
+127.0.0.1:6379> geodist china:city:xian lvdi gaoxinhospital km
+"3.7758"
+127.0.0.1:6379> georadius china:city:xian 108.84067565202713013 34.23805909783406065 3 km
+1) "zhenguanfu"
+2) "lvdi"
+3) "waishi"
+4) "mincheng"
+127.0.0.1:6379> GEORADIUSBYMEMBER china:city:xian lvdi 3 km
+1) "zhenguanfu"
+2) "lvdi"
+3) "waishi"
+4) "mincheng"
+127.0.0.1:6379> GEOHASH china:city:xian lvdi
+1) "wqj6u8z75s0"
+127.0.0.1:6379> OBJECT ENCODING china:city:xian
+"ziplist"
+```
+
+
+# Redis 重要配置
+## redis.conf
+* timeout - Close the connection after a client is idle for N seconds
+* pidfile - /var/run/redis_6379.pid
+* loglevel - debug/verbose/notice/warning
+* databases - the number of databases
+* requirepass - setting password for default user
+```
+root@d5ff6116c0ab:/# redis-cli
+127.0.0.1:6379> config get requirepass
+1) "requirepass"
+2) ""
+127.0.0.1:6379> config set requirepass '123456'
+OK
+127.0.0.1:6379> config get requirepass
+1) "requirepass"
+2) "123456"
+127.0.0.1:6379> auth '123456'
+OK
+```
+* maxclients - the max number of connected clients at the same time
+* maxmemory - memory usage limit, 强烈推荐设置，否则可能会内存耗尽而宕机
+* maxmemory-policy - how Redis will select what to remove when maxmemory is reached
+   - volatile-lru - Least Recently Used, 只对设置了ttl的keys
+   - allkeys-lru - all keys
+   - volatile-lfu - Least Frequently Used, 只对设置了ttl的keys
+   - allkeys-lfu
+   - volatile-random - 只对设置了ttl的keys
+   - allkeys-random
+   - volatile-ttl - 只对设置了ttl的keys
+   - noeviction - 不移除，写入时返回错误
+*  maxmemory-samples - LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated，by default redis Redis will check five keys and pick the one that was used least recently
+
+# 发布与订阅
+<img src='/img/2022-05-26-redis-basic/pub-sub-01.jpg' style="height: 294px; margin-left: 0px;" />
+
+# Refered Articles
+- https://www.cnblogs.com/LBSer/p/3310455.html
+
+
+
 
 	
