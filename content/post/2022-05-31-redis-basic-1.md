@@ -197,11 +197,107 @@ OK
    - noeviction - 不移除，写入时返回错误
 *  maxmemory-samples - LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated，by default redis Redis will check five keys and pick the one that was used least recently
 
+
 # 发布与订阅
 <img src='/img/2022-05-26-redis-basic/pub-sub-01.jpg' style="height: 294px; margin-left: 0px;" />
 
-# Refered Articles
-- https://www.cnblogs.com/LBSer/p/3310455.html
+# 示例场景
+* 短信验证码
+
+> 主要思路：  
+1>  随机生成6位数字码  
+2> 存储验证码到redis，且设置ttl(如2mins), sample key pattern: <app-name/system-name>:<phone-number>:<verificaiton-code>, e.g. 'user-service:13992590000:678325'  
+3> 其他限制，如每天每个手机号可以发送的验证码的次数，设置单独的key来管理发送次数，sample key pattern：<app-name/system-name>:<phone-number>:count， 如果次数超过limit则不生成验证码返回exception  
+4> 调用短信服务商接口发送短信  
+[redis-test-sample](https://github.com/cloud-poc/redis-test)
+
+* 静态数据缓存加速前端访问或者缓冲db的i/o压力
+	
+# Redis 事务
+## 事务概念和基本操作
+其为命令提供一个单独的隔离环境，事务中所有的命令都会序列化，按顺序地执行，执行过程中不会被其他客户端发送过来的命令请求打断。
+与dbms事物不同，redis事务的作用就是串联多个命令防止被其他命令插队
+
+- discard sample
+```
+127.0.0.1:6379[1]> keys *
+(empty array)
+127.0.0.1:6379[1]> multi
+OK
+127.0.0.1:6379[1]> set key-1 test-1
+QUEUED
+127.0.0.1:6379[1]> mset key-2 test-2 key-3 test-3
+QUEUED
+127.0.0.1:6379[1]> discard
+OK
+127.0.0.1:6379[1]> keys *
+(empty array)
+```
+- exec succ
+
+```
+127.0.0.1:6379[1]> keys *
+(empty array)
+127.0.0.1:6379[1]> multi
+OK
+127.0.0.1:6379[1]> mset key-2 test-2 key-3 test-3
+QUEUED
+127.0.0.1:6379[1]> exec
+1) OK
+127.0.0.1:6379[1]> keys *
+1) "key-2"
+2) "key-3"
+127.0.0.1:6379[1]>
+```
+- error in middle of exec
+
+```
+127.0.0.1:6379[1]> multi
+OK
+127.0.0.1:6379[1]> hget hkey-1 color
+QUEUED
+127.0.0.1:6379[1]> incr key-2
+QUEUED
+127.0.0.1:6379[1]> hset hkey-1 color blue
+QUEUED
+127.0.0.1:6379[1]> exec
+1) (nil)
+2) (error) ERR value is not an integer or out of range
+3) (integer) 1
+127.0.0.1:6379[1]> hget hkey-1 color
+"blue"
+```
+
+## Redis 乐观锁
+watch key - monitor one or more key
+	
+- sample
+```
+127.0.0.1:6379[1]> watch key-1 lkey-1
+OK
+127.0.0.1:6379[1]> incrby key-1 100
+(integer) 300
+127.0.0.1:6379[1]> multi
+OK
+127.0.0.1:6379[1]> incrby key-1 100
+QUEUED
+127.0.0.1:6379[1]> lpush lkey-1 400
+QUEUED
+127.0.0.1:6379[1]> exec
+(nil)
+127.0.0.1:6379[1]>
+```
+ps: the keys 'watched' has been changed by other client, hence the transaction executed failed.
+
+## Redis Transaction Summary
+- All the operations in transaction will be executed sequentially and won't be interuptted by other clients.
+- All the operations queued won't take effect until 'exec' is executed
+- Redis cannot guarantee the atomicity.
+
+# Referred Articles
+https://www.cnblogs.com/LBSer/p/3310455.html   
+http://redisbook.com/preview/object/sorted_set.html
+
 
 
 
