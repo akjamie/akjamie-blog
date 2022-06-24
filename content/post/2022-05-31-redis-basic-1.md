@@ -1,5 +1,5 @@
 ---
-title: "NoSQL DB & Distributed cache - Redis"
+title: "Redis学习笔记"
 date: 2022-05-30
 subtitle: "Redis basic knowledge - 2"
 description: "Redis基础知识回顾"
@@ -293,7 +293,34 @@ ps: the keys 'watched' has been changed by other client, hence the transaction e
 - All the operations in transaction will be executed sequentially and won't be interuptted by other clients.
 - All the operations queued won't take effect until 'exec' is executed
 - Redis cannot guarantee the atomicity.
+	
+# Redis 持久化
+## RDB
+指定时间间隔内讲内存中的快照写到硬盘中。
+具体步骤
 
+- fork 一个进程作为原进程的子进程
+- 写数据到临时区域/文件
+- 覆盖临时文件到持久化dump.rdb文件，更好的保证数据完整性  
+整个过程不影响主进程，缺点是最后一次持久化的数据可能会丢失  
+
+> stop-writes-on-bgsave-error yes  停止接受写入命令如果rdb开启了并且最近一次后台save失败
+> rdbcompression yes 压缩string object using lzf when dump .rdb databases.
+> rdbchecksum yes CRC64算法进行数据校验
+> save 900 1  - 900秒内有一个key变化就进行持久化
+	save 300 10 - 300秒内有10个key变化就吃法持久化
+
+- 优点
+	- 适合大规模数据恢复
+	- 对数据完整性和一致性要求不高更合适使用
+	- 节省磁盘空间
+	- 回复速度快
+- 缺点
+	- fork操作导致了两倍的数据膨胀
+	- 最后一次进行持久化后的数据可能会丢失，key的变化还没有来得及刷新到rdb文件
+	
+	
+	
 # Referred Articles
 https://www.cnblogs.com/LBSer/p/3310455.html   
 http://redisbook.com/preview/object/sorted_set.html

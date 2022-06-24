@@ -1,5 +1,5 @@
 ---
-title: "NoSQL DB & Distributed cache - Redis"
+title: "Redis学习笔记"
 date: 2019-08-04
 subtitle: "Redis basic knowledge"
 excerpt: ""
