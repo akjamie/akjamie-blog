@@ -113,6 +113,67 @@ public void test() {
 1. 获取url  --> GET:/{goodId}/url, 返回的是混淆字符串(hash)，如sha2(goodId+salt)
 2. 秒杀下单--> POST:/{goodId}/{hash}/execution. 比较hash是否正确。
 
+# 数据缓存
+记录一个分布式缓存的用例场景  
+需求： 一个债券订单系统， 为了提升债券的检索性能(毫秒级返回)以提升用户体验，债券信息检索方案由直查db替换为缓存债券信息到redis缓存。  
+
+主要设计点：  
+1. 每天后台定时任务多线程更新缓存，如工作日6:00am  
+2. 分布式锁，确保只有一个实例负责更新缓存  
+3. <String,String> key,value 存储，key中包含常用搜索字段，如债券搜索的常用字段为债券id，货币类型，债券名称，那么对应的redis key设计为，bond:{bondId}:{bondName}:{currency}, value则为债券对象的json    
+4. 用keys 或者scan来进行模糊查询  
+	- keys命令是阻塞的方式  
+	- 推荐使用scan
+	
+```
+/*
+**Input**
+127.0.0.1:6379> keys test-string-*
+1) "test-string-1"
+2) "test-string-2"
+3) "test-string-3"
+127.0.0.1:6379>
+*/
+	
+// ---------------------------------------
+@SneakyThrows  
+@Test  
+public void test() {  
+    String queryKey = "test-string-*";  
+    RedisCommands<String, String> syncCommands = connection.sync();  
+    List<String> keys = new ArrayList<>();  
+    List<String> values = new ArrayList<>();  
+    ScanArgs scanArgs = new ScanArgs();  
+    scanArgs.match(queryKey);  
+    scanArgs.limit(2);  
+    KeyScanCursor<String> scanCursor = null;  
+    do {  
+        if (scanCursor == null) {  
+            scanCursor = syncCommands.scan(scanArgs);  
+        } else {  
+            scanCursor = syncCommands.scan(scanCursor, scanArgs);  
+        }  
+  
+        // get all page per page  
+        keys.addAll(scanCursor.getKeys());  
+    }while(!scanCursor.isFinished());  
+  
+    //todo: to replace it with pipelines  
+    keys.forEach(k -> {  
+        values.add(syncCommands.get(k));  
+    });  
+  
+    log.info("Matched records, count: {}", values.size());  
+    values.forEach(System.out::println);  
+}
+	
+// -------------------------------
+**Output**
+23:52:44.141 [main] INFO org.akj.redis.ScanCommandTest - Matched records, count:3
+this is for quick search testing
+this is testing message
+redis
+```
 
 # Reference
 https://zhuanlan.zhihu.com/p/480386998
