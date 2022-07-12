@@ -220,7 +220,9 @@ public class RedisWriteOperationWithFailover {
 从上图中得知：  
 - 2022-07-07 23:34:58发现master down机，然后尝试重新连接一直fail。  
 - sentinel在30秒后进行投票选举新的master 并切换到新master 6379。  
-- 应用自动连接到新的master回复数据写入。  
+- 应用自动连接到新的master恢复数据写入。   
+	
+> sentinel down-after-milliseconds mymaster 30000
 
 # Refference Articles
 https://www.jianshu.com/p/f2cb77e7a402 
