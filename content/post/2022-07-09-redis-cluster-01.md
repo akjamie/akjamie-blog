@@ -211,6 +211,17 @@ c1682ccc3e5a86dafc78fe7a553a505718f4e9ba 192.168.0.110:6391@16391 slave 58b3c8fc
 
 What if both master and it's slaves are down, then depends on the config value of <span style='color:red'> cluster-require-full-coverage </span>, if yes, then whole custer cannot work; if no, then only the hash slots of the unavailable master cannot work.
 
+# Pros and Cons
+pros:   
+- High Performance, promises the same level or performance as standalone Redis deployments.  
+- High Availability, supports the standard Redis master-replica configuration  
+- Horizontal & Vertical Scalability  
+
+cons:   
+- Requires Client Support  
+- limited multi-key related operations are supported as multi-key operations are supported only when all the keys in a single operation belong to the same slot.    
+- lua is not supported
+
 
 # Refference articles
 https://redis.io/docs/reference/cluster-spec/
