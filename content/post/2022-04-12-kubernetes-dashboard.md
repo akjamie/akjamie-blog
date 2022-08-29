@@ -143,24 +143,28 @@ Becuase the existing user kubernetes-dashboard has very limited access right to 
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: k8s-admin-dashboard
+  name: dashboard-admin
   namespace: kubernetes-dashboard
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: k8s-admin-dashboard
+  name: dashboard-admin-cluster-role-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: k8s-admin-dashboard
+  name: dashboard-admin
   namespace: kubernetes-dashboard
 ```
 once done, can use this new user to get token to login dashboard.
-<span style="color:green;font-weight:bold">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep k8s-admin-dashboard | awk '{print $1}') </span>
+v1.23 and older  version  
+<span style="color:green;font-weight:bold">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep dashboard-admin | awk '{print $1}') </span>
+
+v1.24 and later version  
+<span style="color:green;font-weight:bold">kubectl -n kubernetes-dashboard create token dashboard-admin </span>
 
 after login, you can see the resources running on the clusers and do the operation work through this dashboard.
 <img src='/img/2022-04-12-kubernetes-dashboard/k8s-dashboard-06.png' style="height: 587px;margin-left: 0px;"/>
