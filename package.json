@@ -20,7 +20,7 @@
     "atomic-algolia": "^0.3.19"
   },
   "devDependencies": {
-    "core-js": "^3.7.0",
-    "fsevents": "^2.2.1"
+    "core-js": "^3.29.1",
+    "fsevents": "^2.3.2"
   }
 }

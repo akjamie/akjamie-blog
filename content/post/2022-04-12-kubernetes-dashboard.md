@@ -5,7 +5,7 @@ description: "Deploy K8S dashboard with TLS enabled"
 date:        2022-04-12
 author:      "Jamie Zhang"
 image:       "img/background-10.jpg"
-tags:        ["K8S", "DevOps"]
+tags:        ["Kubernetes", "DevOps"]
 categories:  ["Cloud" ]
 ---
 # Install dashboard
@@ -166,5 +166,5 @@ v1.23 and older  version
 v1.24 and later version  
 <span style="color:green;font-weight:bold">kubectl -n kubernetes-dashboard create token dashboard-admin </span>
 
-after login, you can see the resources running on the clusers and do the operation work through this dashboard.
+after login, you can see the resources running on the clusters and do the operation work through this dashboard.
 <img src='/img/2022-04-12-kubernetes-dashboard/k8s-dashboard-06.png' style="height: 587px;margin-left: 0px;"/>
