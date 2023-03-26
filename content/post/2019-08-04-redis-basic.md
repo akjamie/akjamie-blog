@@ -1,9 +1,9 @@
 ---
-title: "Redis学习笔记"
+title: "Redis foundation - I"
 date: 2019-08-04
-subtitle: "Redis basic knowledge"
+subtitle: "Redis foundation"
 excerpt: ""
-description: "redis基础知识"
+description: "redis 基础知识"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
 published: true

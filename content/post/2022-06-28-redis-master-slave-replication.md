@@ -1,5 +1,5 @@
 ---
-title: "Redis学习笔记"
+title: "Redis advance II"
 date: 2022-06-28
 subtitle: "Redis basic knowledge - Master/slave replication"
 description: "Redis主从复制"

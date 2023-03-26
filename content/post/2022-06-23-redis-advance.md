@@ -1,5 +1,5 @@
 ---
-title: "Redis学习笔记"
+title: "Redis advance I"
 date: 2022-06-23
 subtitle: "Redis advanced knowledge"
 description: "Redis进阶知识总结"

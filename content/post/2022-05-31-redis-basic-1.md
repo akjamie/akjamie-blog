@@ -1,7 +1,7 @@
 ---
-title: "Redis学习笔记"
+title: "Redis foundation - II"
 date: 2022-05-30
-subtitle: "Redis basic knowledge - 2"
+subtitle: "Redis foundation - II"
 description: "Redis基础知识回顾"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"

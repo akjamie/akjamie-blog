@@ -1,5 +1,5 @@
 ---
-title: "Redis学习笔记"
+title: "Redis advance III"
 date: 2022-07-09 23:03:30
 subtitle: "Redis basic knowledge - Redis cluster - Part I"
 description: "Redis 集群"
@@ -155,7 +155,7 @@ When a master fails or is found to be unreachable by the majority of the cluster
 
 Do a demo in local based on the cluster already setup in previous steps, will shutdown 6391 and check the cluster status, the expected behavior is <span style='background-color: yellow'>the 6379 will be elected as master node to replace the 6391, and the 6391 will be worked as slave node after restarted.</span>  
 
-Firstly, capature exist redis node status for later comparison.  
+Firstly, capture exist redis node status for later comparison.  
 ```
 # run cluster nodes on any cluster nodes
 c1682ccc3e5a86dafc78fe7a553a505718f4e9ba 192.168.0.110:6391@16391 master - 0 1657641720841 7 connected 0-5460
@@ -190,7 +190,7 @@ c1682ccc3e5a86dafc78fe7a553a505718f4e9ba 192.168.0.110:6391@16391 master,fail - 
 
 Thirdly, restart 6391, the 6391 will be slave of 6379.
 ```
-Jamies-MacBook-Pro:cluster jamie$ redis-server ./config/redis-6391.conf 
+Jamies-MacBook-Pro:cluster jamie$ redis-server ./config/redis-6391.conf
 
 Jamies-MacBook-Pro:cluster jamie$ redis-cli -p 6389
 
@@ -209,19 +209,21 @@ c1682ccc3e5a86dafc78fe7a553a505718f4e9ba 192.168.0.110:6391@16391 slave 58b3c8fc
 4d2ade8214274a1653d2ba68f0ab12f0e61502d5 192.168.0.110:6390@16390 master - 0 1657642036000 14 connected 10923-16383
 ```
 
-What if both master and it's slaves are down, then depends on the config value of <span style='color:red'> cluster-require-full-coverage </span>, if yes, then whole custer cannot work; if no, then only the hash slots of the unavailable master cannot work.
+What if both master and it's slaves are down, then depends on the config value of <span style='color:red'> cluster-require-full-coverage </span>, if cluster-require-full-coverage=yes, then whole custer cannot work; if no, then only the hash slots of the unavailable master cannot work.
 
 # Pros and Cons
 pros:   
-- High Performance, promises the same level or performance as standalone Redis deployments.  
+- High Performance, promises the same level of performance as standalone Redis deployments.  
 - High Availability, supports the standard Redis master-replica configuration  
 - Horizontal & Vertical Scalability  
 
 cons:   
-- Requires Client Support  
-- limited multi-key related operations are supported as multi-key operations are supported only when all the keys in a single operation belong to the same slot.    
-- lua is not supported
+- Requires Client to dynamically detect the slots mapping, limited redis client can be used.
+- Data sync is processed asynchronously, cannot guarantee the data Strong Consistence.
+- Slave node only can only work as data backup, cannot balance cluster read/write pressure.
+- Limited multi-keys operations(mset, mget, sunion,etc.) are supported as multi-key operations are supported only when all the keys in a single operation belongs to the same slot.    
+- Lua is not supported
 
 
-# Refference articles
+# Reference docs
 https://redis.io/docs/reference/cluster-spec/
