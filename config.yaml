@@ -35,7 +35,7 @@ markup:
       unsafe: true
       
 params:
-  header_image: "img/header-01.jpg"
+  header_image: "img/header-03.png"
   SEOTitle: "The curious developer's ODYSSEY"
   description: "Jamie, Senior Software Engineer, Open source enthusiast, PMP, Scrum master"
   keyword: >-
