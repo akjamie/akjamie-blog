@@ -37,27 +37,27 @@ markup:
 params:
   header_image: "img/header-01.jpg"
   SEOTitle: "The curious developer's ODYSSEY"
-  description: "Jamie, Senior Software Engineer, Open source enthusiasts, PMP, Scrum master"
+  description: "Jamie, Senior Software Engineer, Open source enthusiast, PMP, Scrum master"
   keyword: >-
-    "Jamie Zhang, 博客, 个人网站, 互联网, Web, 云原生, Kubernetes, 微服务, Microservice"
+    "Jamie Zhang, blog, personal website, internet, Web, cloud native, Kubernetes, microservices, Microservice"
   slogan: "The curious developer's ODYSSEY, Exploring the Universe of TECH, CODE & AI."
   
   image_404: img/404-bg.jpg
-  title_404: '你来到了没有知识的荒原:('
-  
+  title_404: 'You have reached a barren land with no knowledge :('
+
   page_view_conter: false
   leancloud_app_id: ""
   leancloud_app_key: ""
   
-  # algolia site search
+  # Algolia site search
   algolia_search: true
   algolia_appId: "N89YM3N668"
   algolia_indexName: "test_20190722"
   algolia_apiKey: "824114b6bdea662f38f5a26b53c6e2a0"
   
   # Sidebar settings
-  sidebar_about_description: "Senior Software Engineer, Open source enthusiasts, PMP, Scrum master"
-  sidebar_avatar: "img/20190713213835-3.jpg"      # use absolute URL, seeing it's used in both `/` and `/about/`
+  sidebar_about_description: "Senior Software Engineer, Open source enthusiast, PMP, Scrum master"
+  sidebar_avatar: "img/20190713213835-3.jpg"      # Use absolute URL, since it's used in both `/` and `/about/`
 
   featured_tags: true 
   featured_condition_size: 1 
@@ -65,9 +65,9 @@ params:
   # Baidu Analytics
   ba_track_id: ""
   
-  #Enable wechat pay & alipay to allow readers send reward money if they like the articles 
-  reward: true 
-  # reward_guide: "如果这篇文章对你有用,请随意打赏" 
+  # Enable WeChat Pay & Alipay to allow readers to send rewards if they like the articles
+  reward: true
+  # reward_guide: "If you found this article helpful, feel free to send a reward."
 
   friends: true
   bookmarks: false
