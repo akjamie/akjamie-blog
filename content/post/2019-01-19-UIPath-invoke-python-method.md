@@ -6,7 +6,6 @@ description: "simple demostration about how to implement python script invocatio
 date: 2019-01-19 12:10:27
 author: "Jamie Zhang"
 image: "/img/background-03.jpg"
-published: true
 tags:
     - Python
     - UIPath
@@ -79,6 +78,3 @@ Input 为‘invoke python method’的返回对象，TypeArgument是要转化的
 
 *备注*
 欢迎多多指正
-
-
-

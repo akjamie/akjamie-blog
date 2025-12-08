@@ -1,12 +1,14 @@
 ---
 title: "Websocket集成"
-date: 2022-07-04
+date: "2022-07-04"
 subtitle: "Mark down spring stomp & related websocket knowledge"
 description: "记录websocket集成的杂事"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
-tags: ["Websocket", "Spring-stomp", "K8S"]
+tags:
+     - Websocket
+     - Spring-stomp
+     - K8S
 categories: [ Microservice ]
 ---
 

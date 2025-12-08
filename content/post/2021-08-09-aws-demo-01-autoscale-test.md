@@ -2,8 +2,8 @@
 title:       "Demo - AWS EC2 instance auto scaling"
 subtitle:    "AWS PCA Prep Series"
 description: "To mark down some key steps for later review"
-date:        2021-08-09
-author:      "Jamie Zhang"
+date:        "2021-08-09"
+author:      "Jamie Zhang"
 image:       ""
 tags:        ["AWS", "Cloud"]
 categories:  ["Cloud" ]

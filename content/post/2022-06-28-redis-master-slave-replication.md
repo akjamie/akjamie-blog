@@ -1,11 +1,10 @@
 ---
 title: "Redis advance II"
-date: 2022-06-28
+date: "2022-06-28"
 subtitle: "Redis basic knowledge - Master/slave replication"
 description: "Redis主从复制"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: ["Redis", "NoSQL", "K8S"]
 categories: [ NoSQL ]
 ---
@@ -225,4 +224,4 @@ public class RedisWriteOperationWithFailover {
 > sentinel down-after-milliseconds mymaster 30000
 
 # Refference Articles
-https://www.jianshu.com/p/f2cb77e7a402 
+https://www.jianshu.com/p/f2cb77e7a402

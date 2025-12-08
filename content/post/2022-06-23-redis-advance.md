@@ -1,11 +1,10 @@
 ---
 title: "Redis advance I"
-date: 2022-06-23
+date: "2022-06-23"
 subtitle: "Redis advanced knowledge"
 description: "Redis进阶知识总结"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: 
     - Redis
     - NoSQL

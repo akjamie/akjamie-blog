@@ -2,8 +2,8 @@
 title:       "How i prepare the Google Cloud Professional Cloud Architect Certificate"
 subtitle:    ""
 description: "Experience sharing"
-date:        2021-03-09
-author:      "Jamie Zhang"
+date:        "2021-03-09"
+author:      "Jamie Zhang"
 image:       "/img/background-06.jpg"
 tags:        ["GCP", "Certificate"]
 categories:  ["Cloud"]

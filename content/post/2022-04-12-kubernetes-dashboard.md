@@ -2,9 +2,9 @@
 title:       "Kubernetes dashboard deployment"
 subtitle:    "Deploy K8S dashboard with TLS enabled and Cluster Admin role user access."
 description: "Deploy K8S dashboard with TLS enabled"
-date:        2022-04-12
-author:      "Jamie Zhang"
-image:       "img/background-10.jpg"
+date:        "2022-04-12"
+author:      "Jamie Zhang"
+image:       "/img/background-10.jpg"
 tags:        ["Kubernetes", "DevOps"]
 categories:  ["Cloud" ]
 ---

@@ -6,7 +6,6 @@ excerpt: "AWS 无服务器应用程序模型 (AWS SAM)"
 description: "基于python，演示AWS SAM的开发部署过程，含通过aws api gateway暴露api"
 author: "Jamie Zhang"
 image: "/img/background-06.jpg"
-published: true
 tags:
      - Python
      - AWS

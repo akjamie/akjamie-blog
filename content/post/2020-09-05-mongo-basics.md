@@ -7,7 +7,6 @@ author:      "Jamie Zhang"
 image:       "img/background-08.jpg"
 tags:        ["NoSQL", "Mongo"]
 categories:  ["NoSQL" ]
-published: true
 ---
 # Mongo installation(for test)
 ## docker command for local mongo installation  

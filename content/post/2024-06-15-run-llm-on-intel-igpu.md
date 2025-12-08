@@ -2,9 +2,9 @@
 title:       "Run LLM on Intel Iris Xe GPU Using IEPX-LLM + Ollama"
 subtitle:    ""
 description: "For windows demostration only."
-date:        2024-06-15
+date:        "2024-06-15"
 author:     "Jamie Zhang"
-image:       "img/ai-01.jpg"
+image:       "/img/ai-01.jpg"
 tags:        ["LLM", "iGPU"]
 categories:  ["AI" ]
 ---

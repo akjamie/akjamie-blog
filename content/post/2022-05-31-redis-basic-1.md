@@ -5,7 +5,6 @@ subtitle: "Redis foundation - II"
 description: "Redis基础知识回顾"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: 
     - Redis
     - NoSQL
@@ -217,9 +216,3 @@ OK
 # Referred Articles
 https://www.cnblogs.com/LBSer/p/3310455.html   
 http://redisbook.com/preview/object/sorted_set.html
-
-
-
-
-
-	
