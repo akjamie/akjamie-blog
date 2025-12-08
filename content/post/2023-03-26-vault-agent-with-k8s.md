@@ -5,7 +5,7 @@ as well as via the Vault CLI and other libraries, therefore application running 
 Vault provides Kubernetes auth method to authenticate the clients using a Kubernetes Service Account Token, and Vault
 Agent which could be leveraged to automatically inject the secrets from vault into kubernetes pods through init container
 pattern."
-date:        2023-03-26
+date:        "2023-03-26"
 author:      "Jamie"
 image:       "/img/background-01.jpg"
 tags:        ["Vault", "Kubernetes"]

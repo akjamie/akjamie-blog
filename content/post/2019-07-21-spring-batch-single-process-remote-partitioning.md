@@ -1,6 +1,4 @@
 ---
-title: 
-date: 2019-07-21 18:55:24
 title: "Spring batch - single process & remote partitioning(multi instances)"
 date: 2019-07-23 13:36:10
 subtitle: ""
@@ -8,7 +6,6 @@ excerpt: ""
 description: "spring batch 批处理poc"
 author: "Jamie Zhang"
 image: "/img/background-03.jpg"
-published: true
 tags:
      - Spring Batch
 categories: [ Microservice ]

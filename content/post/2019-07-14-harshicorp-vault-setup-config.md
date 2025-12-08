@@ -6,7 +6,6 @@ description: "介绍用docker-compose安装Vault并配置nginx代理，并与spr
 date: 2019-07-14 12:10:27
 author: "Jamie Zhang"
 image: "/img/background-01.jpg"
-published: true
 tags:
     - Harshicorp Vault
     - Docker

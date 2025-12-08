@@ -5,11 +5,11 @@ subtitle: "setup network proxy on aws(free tier is enough)"
 excerpt: ""
 description: "Using Shadowsocks+proxychain to build network proxy for personal learning purpose"
 author: "Jamie Zhang"
-image: "/img/background-07.jpg"
-published: true
+image: "/img/background-01.jpg"
 tags:
-    - Shadowsocks
-    - Proxychain
+     - Shadowsocks
+     - Proxychain
+URL: "/post/2019-07-14-linux-network-proxy-setup-desktop-terminal/"
 categories: [ Others ]
 ---
 # 背景介绍
@@ -127,5 +127,3 @@ WantedBy=multi-user.target*
 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1: undefined symbol: EVP_CIPHER
 请修改/usr/local/lib/python3.6/dist-packages/shadowsocks/crypto/openssl.py，更新第55行和111行
 将libcrypto.EVP_CIPHER_CTX_cleanup(self._ctx) 修改为 <label style="color:blue">libcrypto.EVP_CIPHER_CTX_reset(self._ctx)</label>
-
-

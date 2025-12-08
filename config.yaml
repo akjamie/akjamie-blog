@@ -7,7 +7,8 @@ languageCode: "en-us"
 disqusShortname: ""
 googleAnalytics: ""
 preserveTaxonomyNames: true
-paginate: 5 #frontpage pagination
+pagination:
+  pagerSize: 10
 hasCJKLanguage: true
 
 outputs:
@@ -35,11 +36,11 @@ markup:
       
 params:
   header_image: "img/header-01.jpg"
-  SEOTitle: "Jamie's Blog"
-  description: "Jamie，Senior Software Engineer, Open source enthusiasts, PMP, Scrum master"
+  SEOTitle: "The curious developer's ODYSSEY"
+  description: "Jamie, Senior Software Engineer, Open source enthusiasts, PMP, Scrum master"
   keyword: >-
     "Jamie Zhang, 博客, 个人网站, 互联网, Web, 云原生, Kubernetes, 微服务, Microservice"
-  slogan: "Building the future, one line of code at a time."
+  slogan: "The curious developer's ODYSSEY, Exploring the Universe of TECH, CODE & AI."
   
   image_404: img/404-bg.jpg
   title_404: '你来到了没有知识的荒原:('

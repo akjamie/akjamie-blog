@@ -5,8 +5,7 @@ subtitle: "(1st) Demo Overview"
 excerpt: ""
 description: "通过一个demo，来综合运用spring cloud系列技术"
 author: "Jamie Zhang"
-image: "/img/background-01.jpg"
-published: true
+image: "/img/background-05.jpg"
 tags:
      - Spring Cloud
      - Spring Boot
@@ -54,9 +53,3 @@ categories: [ Microservice ]
 在gateway，catalog，inventory中都配置了prometheus的监控埋点，metrics会被拉取到prometheus上，并在kafana中展示，在deveops代码仓库中提供了一个简单的prometheus+alertmanager+kafana的docker compose file
 
 logging的统一收集和分析还没有开始
-
-
-
-
-
-

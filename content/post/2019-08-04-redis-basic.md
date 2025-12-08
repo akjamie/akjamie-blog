@@ -6,7 +6,6 @@ excerpt: ""
 description: "redis 基础知识"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: 
     - Redis
     - NoSQL
@@ -246,4 +245,4 @@ appendfsync everysec
 参考文章  
 https://www.jianshu.com/p/cbe1238f592a  
 https://www.cnblogs.com/zhenghongxin/p/8669913.html  
-https://www.bilibili.com/video/av49517046  
+https://www.bilibili.com/video/av49517046

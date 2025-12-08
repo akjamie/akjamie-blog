@@ -6,7 +6,6 @@ description: "介绍用如何使用Let's Encrypt's Certbot生成CA证书，并�
 date: 2019-07-14 18:30:05
 author: "Jamie Zhang"
 image: "/img/background-02.jpg"
-published: true
 tags:
      - Docker
      - Let’s Encrypt

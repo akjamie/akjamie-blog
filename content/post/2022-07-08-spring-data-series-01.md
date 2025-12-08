@@ -1,12 +1,11 @@
 ---
 title: "Spring Data & Data Persistent"
-date: 2022-07-98 14:40:10
+date: "2022-07-08"
 subtitle: "Notes taken during studying spring data series - overview"
 excerpt: ""
 description: ""
 author: "Jamie Zhang"
 image: "/img/background-01.jpg"
-published: true
 tags:
      - Spring Data
      - JPA
@@ -55,7 +54,3 @@ JPA's object-relational mapping was originally based on Hibernate, While JPA is 
 | Hibernate| Session | SessionFactory|
 | Spring-data-JPA| EntityManager| EntityManagerFactory(LocalContainerEntityManagerFactoryBean)|
 | Mybatis| SqlSession(DefaultSqlSession)|SqlSessionFactory|
-
-
-
-

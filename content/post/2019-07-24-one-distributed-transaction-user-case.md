@@ -6,7 +6,6 @@ excerpt: ""
 description: "分享一个遇到的分布式事务case, 以及部分引申思考"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: 
      - Design
      - Distributed Transaction

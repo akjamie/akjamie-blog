@@ -3,11 +3,9 @@ title:       "GCP Network Connection (1)"
 subtitle:    "gcp network connections - VPC peering/VPN - poc"
 description: "gcp network connections - VPC peering/VPN - poc"
 date:        2020-09-07
-author:      "Jamie Zhang"
-image:       "img/background-10.jpg"
-tags:        ["GCP", "VPC", "Mongo"]
-categories:  ["Cloud" ]
-published: true
+author: "Jamie Zhang"
+image: "/img/background-06.jpg"
+categories: [ Cloud ]
 ---
 
 To document the setup process for VPC peering accross different GCP project VPCs for demo purpose only.
@@ -111,5 +109,4 @@ __Tags and service accounts are not usable across peered networks__
 
 Userful References:  
 https://cloud.google.com/vpc/docs/using-vpc-peering  
-https://ciphertrick.com/setup-mongodb-authentication-connect-using-mongoose/  
-
+https://ciphertrick.com/setup-mongodb-authentication-connect-using-mongoose/

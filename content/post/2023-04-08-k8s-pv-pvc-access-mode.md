@@ -3,9 +3,9 @@ title:       "Explore Kubernetes Local PV & PVC access mode"
 subtitle:    ""
 description: "A local volume represents a mounted local storage device such as a disk, partition or directory.
 Local volumes can only be used as a statically created PersistentVolume. Dynamic provisioning is not supported."
-date:        2023-04-08
+date:        "2023-04-08"
 author:      "Jamie Zhang"
-image:       "img/background-10.jpg"
+image:       "/img/background-10.jpg"
 tags:        ["Kubernetes"]
 categories:  ["Cloud" ]
 ---

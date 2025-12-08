@@ -1,11 +1,10 @@
 ---
 title: "Redis foundation - III"
-date: 2022-06-27
+date: "2022-06-27"
 subtitle: "Redis basic knowledge - transaction & data persistence"
 description: "Redis事务和持久化"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: 
     - Redis
     - NoSQL

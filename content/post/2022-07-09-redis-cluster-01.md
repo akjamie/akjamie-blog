@@ -1,11 +1,10 @@
 ---
 title: "Redis advance III"
-date: 2022-07-09 23:03:30
+date: "2022-07-09"
 subtitle: "Redis basic knowledge - Redis cluster - Part I"
 description: "Redis 集群"
 author: "Jamie Zhang"
 image: "/img/background-05.jpg"
-published: true
 tags: ["Redis", "NoSQL"]
 categories: [ NoSQL ]
 ---
