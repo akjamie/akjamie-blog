@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Redis foundation - III"
 date: "2022-06-27"
 subtitle: "Redis basic knowledge - transaction & data persistence"

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Spring batch - single process & remote partitioning(multi instances)"
 date: 2019-07-23 13:36:10
 subtitle: ""

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Learning Notes: Fine-Tuning Transformer Models"
 date: "2025-09-02"
 author: "Jamie Zhang"
@@ -17,12 +18,12 @@ Fine-tuning is the process of adapting a pre-trained transformer model (like GPT
 - **Pre-trained models** learn general language patterns from massive datasets.
 - **Fine-tuning** adapts these models to your specific task (e.g., sentiment analysis, Q&A, summarization) using a smaller, task-specific dataset.
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     A[Pre-trained Model] --> B[Fine-tuning Process]
     C[Task-specific Dataset] --> B
     B --> D[Fine-tuned Model]
-{{< /mermaid >}}
+```
 
 ## Why Fine-Tune?
 
@@ -50,7 +51,7 @@ flowchart LR
 7. **Deploy**
    - Integrate into your application or workflow
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     A[Choose Model] --> B[Prepare Dataset]
     B --> C[Set Up Environment]
@@ -61,7 +62,7 @@ flowchart TB
     G --> H{Satisfied with Results?}
     H -->|No| D
     H -->|Yes| I[Complete]
-{{< /mermaid >}}
+```
 
 ## Example: Fine-Tuning with Hugging Face Transformers
 
@@ -98,7 +99,7 @@ trainer.train()
 
 As transformer models grow larger, full fine-tuning becomes computationally expensive. Parameter-efficient fine-tuning (PEFT) methods address this by only training a small subset of parameters while freezing the rest of the model.
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A[Full Model] --> B{PEFT Method}
     B --> C[LoRA Matrices]
@@ -107,7 +108,7 @@ graph LR
     C --> F[Fine-tuned Model]
     D --> F
     E --> F
-{{< /mermaid >}}
+```
 
 ### LoRA (Low-Rank Adaptation)
 
@@ -118,7 +119,7 @@ LoRA is one of the most popular PEFT techniques. Instead of updating all model p
 - Adds trainable low-rank decomposition matrices to specific layers
 - Updates only these small matrices during training
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "LoRA Mechanism"
         A[Original Weight Matrix W] --> B[Frozen]
@@ -126,7 +127,7 @@ flowchart LR
         B --> E[Updated W + AB]
         D --> E
     end
-{{< /mermaid >}}
+```
 
 ```python
 from peft import LoraConfig, get_peft_model
@@ -163,13 +164,13 @@ QLoRA builds upon LoRA by adding quantization techniques to further reduce memor
 
 QLoRA allows fine-tuning models like 65B parameter LLaMA on consumer GPUs with as little as 48GB of VRAM.
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     A[Full Precision Model] --> B[4-bit Quantization]
     B --> C[QLoRA Fine-tuning]
     D[LoRA Adapters] --> C
     C --> E[Quantized Fine-tuned Model]
-{{< /mermaid >}}
+```
 
 ```python
 from peft import LoraConfig
@@ -209,7 +210,7 @@ model = get_peft_model(model, lora_config)
 3. **Prompt Tuning**: Optimizes continuous prompt embeddings prepended to input text
 4. **BitFit**: Only trains the bias terms of the model
 
-{{< mermaid >}}
+```mermaid
 graph TD
     A[PEFT Methods] --> B[LoRA]
     A --> C[Adapter Tuning]
@@ -222,7 +223,7 @@ graph TD
     D --> I[Prefix tokens]
     E --> J[Prompt embeddings]
     F --> K[Bias terms only]
-{{< /mermaid >}}
+```
 
 ## Tips & Best Practices
 
@@ -259,7 +260,7 @@ graph TD
 | QLoRA          | Low-rank matrices  | Very Low     | Fast           | High        |
 | Adapter Tuning | Adapter layers     | Low          | Fast           | Medium-High |
 
-{{< mermaid >}}
+```mermaid
 graph TD
     A[Transformer Fine-tuning Approaches] --> B[Full Fine-tuning]
     A --> C[Parameter-Efficient Methods]
@@ -271,7 +272,7 @@ graph TD
     D --> |Balanced| H[Good Performance]
     E --> |Low Resource Usage| I[Good Performance]
     F --> |Low Resource Usage| J[Moderate Performance]
-{{< /mermaid >}}
+```
 
 ---
 

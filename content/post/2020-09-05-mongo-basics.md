@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Mongo DB Basics (1)"
 subtitle:    "Mongodb Series - NoSQL(NoSQL = Not Only SQL)"
 description: "Mongodb 基本操作 - Insert/Find/Update/Remove"

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Redis advance II"
 date: "2022-06-28"
 subtitle: "Redis basic knowledge - Master/slave replication"

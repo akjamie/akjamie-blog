@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Spring Data & Data Persistent"
 date: "2022-07-08"
 subtitle: "Notes taken during studying spring data series - overview"

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Free CA Certs setup using Certbot + Docker + Nginx"
 subtitle: ""
 excerpt: ""

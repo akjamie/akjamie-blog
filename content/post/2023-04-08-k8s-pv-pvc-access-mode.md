@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Explore Kubernetes Local PV & PVC access mode"
 subtitle:    ""
 description: "A local volume represents a mounted local storage device such as a disk, partition or directory.

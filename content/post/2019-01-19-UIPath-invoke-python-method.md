@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "How to invoke python scripts in UIPath"
 subtitle: ""
 excerpt: ""

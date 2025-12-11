@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Spring Transaction"
 subtitle:    "Local Transaction"
 description: "Spring Transaction 之 Local Transaction实现原理"

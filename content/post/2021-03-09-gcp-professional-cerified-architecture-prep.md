@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "How i prepare the Google Cloud Professional Cloud Architect Certificate"
 subtitle:    ""
 description: "Experience sharing"

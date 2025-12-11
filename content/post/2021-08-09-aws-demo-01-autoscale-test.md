@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Demo - AWS EC2 instance auto scaling"
 subtitle:    "AWS PCA Prep Series"
 description: "To mark down some key steps for later review"

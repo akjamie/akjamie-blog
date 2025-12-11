@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Microservice design - practice"
 subtitle:    "Data sync between systems"
 description: "To mark down a batch data sync accross system solution"

@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Kubernates - Practice"
 subtitle:    "Run Spring boot application on local K8s cluster"
 description: "to run a cloud config service which built using spring boot cloud config"

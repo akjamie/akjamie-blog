@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Redis foundation - II"
 date: 2022-05-30
 subtitle: "Redis foundation - II"

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "微服务中的分布式事务"
 date: 2019-07-23 19:40:10
 subtitle: "(1st)One Distrubuted transaction use case"
