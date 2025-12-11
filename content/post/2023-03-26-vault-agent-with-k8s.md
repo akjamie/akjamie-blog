@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Vault Agent with Kubernetes"
 description: "Nearly all requests to Vault must be accompanied by an authentication token. This includes all API requests,
 as well as via the Vault CLI and other libraries, therefore application running in kubernetes is no exception. Luckily,

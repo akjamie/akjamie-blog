@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Spring Transaction"
 subtitle:    "Global Transaction"
 description: "Spring Transaction 之 JTA事务管理"

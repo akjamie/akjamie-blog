@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Understanding Transformer Architecture: The Foundation of Modern AI"
 subtitle:    "A Comprehensive Guide to Attention Mechanisms and How They Power LLMs Like GPT"
 description: "Learn how Transformer architecture works with clear explanations and visual diagrams. Understand the core concepts behind modern AI models like GPT-4 and GPT-5."
@@ -27,11 +28,11 @@ Feedforward Networks are the most basic type of neural network. Data flows in on
 
 Think about it: the meaning of a word often depends on the words that came before it. A basic FFN has no way to capture this.
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A["Input: The cat sat on"] --> B[FFN]
     B --> C["Output: ?"]
-{{< /mermaid >}}
+```
 
 As you can see, a Feedforward Network processes the input and produces an output without any memory of previous inputs. This is problematic for language understanding.
 
@@ -45,7 +46,7 @@ However, RNNs have significant limitations:
 2. **Vanishing Gradient Problem**: It becomes difficult to learn long-range dependencies
 3. **Limited Parallelization**: Due to their sequential nature, they can't take full advantage of modern parallel computing hardware
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "RNN Processing Sequence"
         A["Input: The"] --> B[RNN]
@@ -58,7 +59,7 @@ flowchart TB
         H["Input: cat"] --> D
         I["Input: sat"] --> F
     end
-{{< /mermaid >}}
+```
 
 As shown above, RNNs process each word sequentially, with the hidden state carrying information from previous steps. While this provides some memory, it's still limited and inefficient.
 
@@ -69,7 +70,7 @@ The Transformer solves these problems by introducing two key innovations:
 1. **Attention Mechanism**: Instead of processing sequences step-by-step, the model can look at all words simultaneously and determine which ones are most relevant to each other
 2. **Parallel Processing**: Because words aren't processed sequentially, the entire sequence can be processed in parallel, dramatically speeding up training
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "Transformer Approach"
         A["Input: The cat sat"] --> B[Attention]
@@ -80,7 +81,7 @@ flowchart LR
         C --> E
         D --> E
     end
-{{< /mermaid >}}
+```
 
 ## Understanding the Transformer Architecture
 
@@ -95,7 +96,7 @@ The original Transformer model consists of two main parts:
 1. **Encoder**: Processes the input sequence and creates representations of each word in context
 2. **Decoder**: Uses the encoder's representations to generate the output sequence
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "Original Transformer Architecture"
         A[Input Sequence] --> B[Encoder Stack]
@@ -103,7 +104,7 @@ flowchart LR
         C --> D[Decoder Stack]
         D --> E[Output Sequence]
     end
-{{< /mermaid >}}
+```
 
 However, modern large language models (LLMs) like GPT-4 and GPT-5 use a **decoder-only architecture**, so we'll focus on that for the rest of this guide.
 
@@ -115,7 +116,7 @@ In a decoder-only Transformer (like GPT models), the architecture consists of a 
 2. **Feed-Forward Network (FFN)**: A simple neural network that processes each word's representation independently
 3. **Residual Connections and Layer Normalization**: Technical components that help with stable training
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Transformer Decoder Layer"
         A[Input Embeddings] --> B[Masked Multi-Head Attention]
@@ -124,11 +125,11 @@ flowchart TB
         D --> E[Add & Norm]
         E --> F[Output]
     end
-{{< /mermaid >}}
+```
 
 Multiple such layers are stacked together to form the complete model:
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Stack of Decoder Layers"
         A[Input] --> B[Decoder Layer 1]
@@ -137,7 +138,7 @@ flowchart TB
         D --> E[Decoder Layer N]
         E --> F[Output]
     end
-{{< /mermaid >}}
+```
 
 ## Understanding Input Processing: Embeddings
 
@@ -158,7 +159,7 @@ Since Transformers process all words simultaneously, they don't naturally unders
 
 This way, the model can distinguish between "The cat chased the dog" and "The dog chased the cat" even though they contain the same words.
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A["Input Text: The cat sat"] --> B[Tokenization]
     B --> C["Tokens: [The, cat, sat]"]
@@ -166,7 +167,7 @@ graph LR
     C --> E[Positional Embeddings]
     D --> F[Combined Embeddings]
     E --> F
-{{< /mermaid >}}
+```
 
 The combined embeddings (token + positional) are what gets fed into the first layer of the Transformer.
 
@@ -182,7 +183,7 @@ For example, in the sentence "The cat sat on the mat", when trying to understand
 
 In a simple attention mechanism, each word can "attend to" or "look at" all other words in the sequence. The model calculates attention weights that determine how much focus to place on each word.
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "Simple Attention Mechanism"
         A["Word: sat"] --> B[Attention Weights Calculator]
@@ -207,7 +208,7 @@ flowchart LR
         M --> O
         N --> O
     end
-{{< /mermaid >}}
+```
 
 In this example, when processing the word "sat", the model assigns the highest attention weight (0.7) to "cat" because it's the subject performing the action. The word "The" gets a smaller weight (0.1) because it's less important for understanding the meaning.
 
@@ -217,7 +218,7 @@ What makes Transformers special is "self-attention". This means each word can at
 
 For instance, in the sentence "The chef cooked the books", self-attention helps the model understand that "books" likely refers to accounting records (because of "cooked") rather than literature, even though "books" usually means literature.
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A["chef"] -- relates to --> B[cooked]
     C["cooked"] -- relates to --> D[books]
@@ -232,7 +233,7 @@ graph LR
         E
         F
     end
-{{< /mermaid >}}
+```
 
 ### Multi-Head Attention: Getting Multiple Perspectives
 
@@ -245,7 +246,7 @@ Think of it like a team of experts analyzing a sentence:
 
 Each "head" in multi-head attention learns to focus on different types of relationships, and their insights are combined to create a more complete understanding.
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Multi-Head Attention"
         A["Input Sentence: The cat sat on the mat"] --> B[Attention Head 1]
@@ -268,7 +269,7 @@ flowchart TB
         K --> L[Linear Transformation]
         L --> M[Combined Output]
     end
-{{< /mermaid >}}
+```
 
 > **2025 Update:**  
 > Some models now use **hybrid attention architectures** (e.g., combining attention with state space models) to further improve efficiency and context length.
@@ -281,7 +282,7 @@ This is the key difference for a generative model like GPT. During training, the
 
 This is what makes GPT an autoregressive model—it generates text one word at a time, based on the words that came before.
 
-{{< mermaid >}}
+```mermaid
 graph LR
     A["Input: The cat sat on ___"] --> B[Masked Attention]
     
@@ -294,7 +295,7 @@ graph LR
     end
     
     B --> H["Prediction: the"]
-{{< /mermaid >}}
+```
 
 So, in a nutshell, masked multi-head attention allows the model to consider the entire past context in a sophisticated, parallel way, without peeking at the future.
 
@@ -313,14 +314,14 @@ After the attention mechanism produces an output, the model applies "Add & Norm"
 - **Residual Connection (Add)**: The input to the attention layer is added to its output. This helps with gradient flow during training and prevents the vanishing gradient problem.
 - **Layer Normalization (Norm)**: Normalizes the values to keep them in a reasonable range, which helps with training stability.
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     A[Input] --> B[Attention]
     A --> C[Residual Connection]
     B --> C
     C --> D[Layer Normalization]
     D --> E[Output]
-{{< /mermaid >}}
+```
 
 ### 3. Feed-Forward Network (FFN)
 
@@ -332,13 +333,13 @@ After the attention mechanism, the output goes through a Feed-Forward Network. T
 
 The FFN helps the model process the attention output further and adds more representational power.
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     A[Input] --> B[Linear 1]
     B --> C[ReLU]
     C --> D[Linear 2]
     D --> E[Output]
-{{< /mermaid >}}
+```
 
 ### 4. Another Add & Norm
 
@@ -348,7 +349,7 @@ After the FFN, there's another Add & Norm operation, similar to the one after at
 
 Here's how all components work together in a single decoder layer:
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Complete Decoder Layer"
         A[Input Embeddings] --> B[Masked Multi-Head Attention]
@@ -357,9 +358,9 @@ flowchart TB
         D --> E[Add & Norm]
         E --> F[Output]
     end
-{{< /mermaid >}}
+```
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "Residual Connections"
         G[Input] --> H[Attention Output]
@@ -367,13 +368,13 @@ flowchart LR
         J[Add & Norm 1 Output] --> K[FFN Output]
         J --> L[Residual to Add & Norm 2]
     end
-{{< /mermaid >}}
+```
 
 ## How Layers Work Together in Decoder-Only Architecture
 
 In a decoder-only model like GPT, multiple decoder layers are stacked on top of each other. The output of one layer becomes the input to the next layer. This allows the model to build increasingly complex representations of the text as it goes through more layers.
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Stack of Decoder Layers Processing"
         A[Input Embeddings] --> B[Layer 1]
@@ -382,14 +383,14 @@ flowchart TB
         D --> E[Layer N]
         E --> F[Final Representations]
     end
-{{< /mermaid >}}
+```
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Inside Each Layer"
         G[Attention → Add & Norm → FFN → Add & Norm]
     end
-{{< /mermaid >}}
+```
 
 Each layer refines the representations from the previous layer:
 - Early layers focus on basic syntax and word relationships
@@ -402,7 +403,7 @@ This hierarchical processing is what allows Transformers to understand complex l
 
 To better understand how information flows through a Transformer, let's look at a complete visualization of the data processing pipeline:
 
-{{< mermaid >}}
+```mermaid
 flowchart TB
     subgraph "Complete Transformer Data Flow"
         A[Input Text] --> B[Tokenization]
@@ -423,7 +424,7 @@ flowchart TB
         M --> N[FFN]
         N --> O[Add & Norm]
     end
-{{< /mermaid >}}
+```
 
 ## Anatomy of a Modern LLM: Parameter Calculation and Mixture of Experts (MoE)
 
@@ -489,7 +490,7 @@ This is where the MoE architecture comes into play. Instead of one FFN per layer
 *   **Total Expert Parameters**: We have 30 MoE layers in our model.
     *   `30 layers * 7.5B params/layer` = **225 Billion**
 
-{{< mermaid >}}
+```mermaid
 graph TD
     subgraph "MoE Transformer Layer"
         A[Input from Attention] --> B{Router};
@@ -515,7 +516,7 @@ graph TD
 
         G --> L[Output of Layer];
     end
-{{< /mermaid >}}
+```
 
 **Summary for architects:**  
 - The majority of parameters in a modern LLM are in the FFN/experts, not attention.
@@ -531,7 +532,7 @@ Since the original Transformer was introduced in 2017, there have been many impr
 > **2025 Update:**  
 > Recent research explores **state space models** (SSMs), **hybrid attention/state space layers**, and **dynamic routing** for even longer context and better efficiency. Some models now mix attention and SSM blocks within the same architecture.
 
-{{< mermaid >}}
+```mermaid
 timeline
     title Evolution of Transformer Architectures
     section 2017
@@ -551,7 +552,7 @@ timeline
     DeepSeek-V2, Gemini Ultra: MoE everywhere, grouped-query attention, 128k+ context, rotary/dynamic position encoding
     section 2025
     State Space Models (SSMs), Hybrid Attention/SSM Layers, Dynamic Routing, Efficient Inference (speculative decoding, quantization)
-{{< /mermaid >}}
+```
 
 ## Summary: The Big Picture
 
@@ -572,13 +573,13 @@ The Transformer's parallel processing makes it much faster and more efficient to
 
 While both use feed-forward networks, the Transformer's self-attention layers provide the crucial context-awareness that FFNs completely lack.
 
-{{< mermaid >}}
+```mermaid
 flowchart LR
     subgraph "Comparison"
         A["FFN: No Context"] --> B[Simple Output]
         C["Transformer: Full Context"] --> D[Context-Aware Output]
     end
-{{< /mermaid >}}
+```
 
 ## Conclusion
 

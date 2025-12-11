@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Redis advance I"
 date: "2022-06-23"
 subtitle: "Redis advanced knowledge"

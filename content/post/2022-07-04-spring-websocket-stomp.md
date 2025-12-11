@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Websocket集成"
 date: "2022-07-04"
 subtitle: "Mark down spring stomp & related websocket knowledge"

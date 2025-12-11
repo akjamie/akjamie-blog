@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Harshicorp Vault Setup Config and integration with spring boot"
 subtitle: "Vault secures, stores, and tightly controls access to tokens, passwords, certificates, API keys, and other secrets in modern computing"
 excerpt: ""

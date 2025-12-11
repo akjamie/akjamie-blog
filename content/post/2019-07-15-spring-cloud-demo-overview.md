@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Spring Cloud Series"
 date: 2019-07-23 13:36:10
 subtitle: "(1st) Demo Overview"

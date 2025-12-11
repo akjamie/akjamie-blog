@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Liquibase"
 subtitle:    "Liquibase helps teams track, version, and deploy database schema and logic changes"
 description: "Adopt liquibase to manage the SQL script changes & deployment"

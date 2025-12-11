@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Run LLM on Intel Iris Xe GPU Using IEPX-LLM + Ollama"
 subtitle:    ""
 description: "For windows demostration only."

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Linux network proxy setup for desktop and terminal
 date: 2019-07-14 14:50:52
 subtitle: "setup network proxy on aws(free tier is enough)"

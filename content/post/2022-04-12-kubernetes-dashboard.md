@@ -1,4 +1,5 @@
 ---
+layout: post
 title:       "Kubernetes dashboard deployment"
 subtitle:    "Deploy K8S dashboard with TLS enabled and Cluster Admin role user access."
 description: "Deploy K8S dashboard with TLS enabled"

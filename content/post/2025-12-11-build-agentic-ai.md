@@ -1,12 +1,13 @@
 ---
-title: "The Complete Guide to Building Agentic AI Systems: From Basics to Production"
-date: "2025-12-11"
-author: "Jamie Zhang"
-tags: ["Agentic AI", "LLM", "AI Agents", "Tool Use", "Multi-Agent Systems", "Prompt Engineering"]
-categories: ["AI"]
+layout:      post
+title:       "The Complete Guide to Building Agentic AI Systems: From Basics to Production"
+date:        "2025-12-11"
+author:      "Jamie Zhang"
+tags:        ["Agentic AI", "LLM", "AI Agents", "Tool Use", "Multi-Agent Systems", "Prompt Engineering"]
+categories:  ["AI"]
 description: "Master the art of building production-ready agentic AI systems with reflection patterns, tool use, planning, and multi-agent collaboration. A comprehensive guide covering evaluation strategies, error analysis, and optimization techniques."
-image: "/img/ai-01.jpg"
-keywords: ["agentic ai", "llm agents", "ai workflows", "prompt engineering", "tool calling", "function calling", "multi-agent systems", "ai evaluation", "error analysis", "production ai"]
+image:       "/img/ai-01.jpg"
+keywords:   ["agentic ai", "llm agents", "ai workflows", "prompt engineering", "tool calling", "function calling", "multi-agent systems", "ai evaluation", "error analysis", "production ai"]
 ---
 
 # The Complete Guide to Building Agentic AI Systems: From Basics to Production
