@@ -6,7 +6,7 @@ date:        "2026-02-25"
 author:      "Jamie Zhang"
 image:       "/img/ai-01.jpg"
 tags:        ["LLM", "Transformer", "AI", "Deep Learning", "Architecture", "AGI"]
-categories:  ["AI", "Technology"]
+categories:  ["AI"]
 ---
 
 ## Introduction: From Raw Data to Reasoning
