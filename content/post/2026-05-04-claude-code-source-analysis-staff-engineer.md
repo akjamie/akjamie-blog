@@ -249,7 +249,7 @@ The loop then sees a `tool_result` with error content, and the LLM's next turn c
 ### Failure Recovery Patterns
 
 | Failure Mode | Detection | Recovery Strategy |
-|---|---|---|
+|:---|:---|:---|
 | **Prompt too long** | Token count exceeds model limit | Emergency context compaction — summarise oldest messages |
 | **Max output tokens** | `stop_reason === "max_tokens"` | Retry up to 3× with extended `max_tokens` budget |
 | **Streaming failure** | Mid-stream network error | Tombstone orphaned partial response, reset state, retry with fallback model |
@@ -537,7 +537,7 @@ flowchart TB
 ### MCP vs Built-in Tools: Decision Guide
 
 | Dimension | Built-in Tool | MCP Tool |
-|---|---|---|
+|:---|:---|:---|
 | Registration | Compiled into agent | Discovered at runtime |
 | Schema format | Zod (TypeScript-native) | JSON Schema (language-agnostic) |
 | Execution model | In-process function call | Cross-process JSON-RPC |
