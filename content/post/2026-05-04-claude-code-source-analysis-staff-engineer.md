@@ -52,7 +52,7 @@ The key insight is that **the harness is richer than most frameworks admit**. It
 ### The Architectural Actors
 
 | Actor | Responsibility | Implementation |
-|:---|---|---|
+|:---|:---|:---|
 | **The Brain** | Reasoning, planning, tool selection | External LLM (Claude API) |
 | **The Engine** | Run loop, state machine, turn management | `src/query.ts` |
 | **The Harness** | Tool registry, execution, security boundary | `src/tools/`, `src/Tool.ts` |
