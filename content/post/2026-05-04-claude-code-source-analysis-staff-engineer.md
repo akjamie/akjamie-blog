@@ -724,6 +724,4 @@ The answers will tell you whether a framework is designed for experimentation or
 - [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) — The parser library used for AST-level shell command analysis
 - [Zod Documentation](https://zod.dev) — Schema validation library used throughout Claude Code's tool system
 
----
 
-*This post is based on a practitioner's deep-dive into Claude Code's source code, covering the tool contract, run loop, concurrency model, permission system, MCP integration, and multi-agent architecture. Code samples are illustrative reconstructions based on the source patterns — not verbatim extracts.*
