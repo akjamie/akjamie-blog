@@ -35,7 +35,7 @@ markup:
 params:
   header_image: "img/header-03.png"
   SEOTitle: "The curious developer's ODYSSEY"
-  description: "Jamie, Senior Software Engineer, Open source enthusiast, PMP, Scrum master"
+  description: "Jamie, Staff Engineer, Open source enthusiast, PMP, Scrum master"
   keyword: >-
     "Jamie Zhang, blog, personal website, internet, Web, cloud native, Kubernetes, microservices, Microservice"
   slogan: "The curious developer's ODYSSEY, Exploring the Universe of TECH, CODE & AI."
