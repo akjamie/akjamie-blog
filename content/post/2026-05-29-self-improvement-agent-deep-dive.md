@@ -162,6 +162,41 @@ There are two important separations:
 
 This is what makes the design production-shaped rather than demo-shaped.
 
+### How it works mechanically
+
+The question "Background AIAgent fork receives the transcript" in the diagram
+above is doing a lot of work. Here is the concrete answer:
+
+```python
+# After the foreground agent delivers the final response:
+review_agent = AIAgent(
+    model=self.model,
+    max_iterations=16,
+    quiet_mode=True,
+    ...inherited credentials and session context...
+)
+
+review_agent.run_conversation(
+    user_message=_SKILL_REVIEW_PROMPT,       # the review policy prompt
+    conversation_history=messages_snapshot,  # the full completed transcript
+)
+```
+
+That is it. There is no passive monitoring, no streaming hook, no separate
+analysis service. The foreground conversation finishes, its complete
+`messages` list is snapshotted, and that snapshot is passed as
+`conversation_history` to a brand-new `AIAgent` instance. The review prompt
+(`_SKILL_REVIEW_PROMPT`) is appended as the next user turn, and the new agent
+runs its own tool-calling loop.
+
+**Thread model.** This second agent runs in a Python daemon thread spawned
+after the foreground response is returned. Because it is a daemon thread, it
+does not block the HTTP response — the user receives their answer immediately.
+It also does not block process shutdown: if the host process exits before the
+review completes, the daemon thread is silently abandoned. Hermes accepts this
+as a deliberate tradeoff: review is best-effort, not guaranteed. A half-written
+skill is safer than a delayed user response or a process that cannot exit.
+
 ---
 
 ## 4. Where the Logic Lives
@@ -346,6 +381,20 @@ Several implementation details are doing real work here:
 | copied session id/start | Cache keys and session attribution stay aligned |
 | status output suppression | Review warnings do not leak into the user's UI |
 | background thread approval callback | Dangerous command prompts auto-deny instead of blocking stdin |
+
+**Thread lifecycle.** The review agent runs in a Python **daemon thread**. This
+has three concrete consequences:
+
+- **Non-blocking.** The thread is started after the foreground response is
+  already returned. The user's HTTP response (or CLI output) does not wait for
+  the review to complete.
+- **Process-exit safe.** Because it is a daemon thread, the Python process can
+  exit cleanly even if the review thread is still running. The thread is
+  silently abandoned on exit rather than blocking shutdown.
+- **Best-effort guarantee.** Review is not transactional. A process restart
+  mid-review means the review does not complete. Hermes accepts this: the
+  foreground agent can still save skills directly (Section 5), so a missed
+  background review is a quality gap, not a data loss.
 
 The fork is deliberately boring. It is just another Hermes agent, but with a
 different goal and a tighter toolbox.
