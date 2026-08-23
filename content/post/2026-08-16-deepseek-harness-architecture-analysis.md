@@ -1,282 +1,215 @@
 ---
 layout: post
-title: "DeepSeek Harness: Interesting Architecture, but Is It the Right Choice for Building Agents?"
+title: "DeepSeek Harness: A Serious Coding Agent That Deserves a Serious Look"
 date: "2026-08-16"
 author: "Jamie Zhang"
-tags: ["agents", "architecture", "deepseek", "harness", "llm", "system-design", "mcp", "agent-runtime"]
+tags: ["agents", "architecture", "deepseek", "harness", "llm", "system-design", "coding-agent", "open-source"]
 categories: ["AI"]
-description: "A staff-engineering perspective on DeepSeek Harness — what the plugin architecture actually buys you, where it adds integration cost, and which teams it is genuinely built for."
+description: "DeepSeek Harness isn't an agent framework — it's a fully-featured, open-source coding agent competing directly with Claude Code and Codex. A senior staff engineer's honest breakdown of the architecture, where it wins, and where it still has gaps."
 image: "/img/ai-01.jpg"
 ---
 
-# DeepSeek Harness: Interesting Architecture, but Is It the Right Choice for Building Agents?
+# DeepSeek Harness: A Serious Coding Agent That Deserves a Serious Look
 
-> A staff-engineering perspective on DeepSeek Harness — what the plugin architecture
-> actually buys you, where it adds integration cost, and which teams it is genuinely built for.
+> DeepSeek Harness isn't an agent framework you wire into your platform. It's a fully-featured coding agent — with CLI, web UI, sandbox, replay testing, and a plugin core — that ships ready to use and competes directly with Claude Code and Codex.
 
 ---
 
 > [!NOTE]
 > ### Executive TL;DR
-> DeepSeek Harness (open-sourced August 13, 2026, MIT) is a modular agent runtime built on
-> the Cordis plugin framework. Its formula: **Agent = Model + Harness**, where every major
-> capability — model, tools, session, sandbox, even the agent loop itself — is a replaceable
-> plugin.
+> DeepSeek Harness (open-sourced August 13, 2026, MIT) is a production-ready coding agent built on
+> a Cordis plugin core. Its formula: **Agent = Model + Harness**, where the model, tools, sandbox,
+> session log, and agent loop are all replaceable plugins — but the *product* is a coding agent, not
+> a framework for building one.
 >
-> - **Genuinely interesting for:** agent infrastructure builders, agent researchers, and teams
->   building primarily on DeepSeek models.
-> - **Not a replacement for:** Claude Code, Codex, or established frameworks (DeepAgents, ADK,
->   LangGraph) for standard enterprise workloads.
-> - **Key tension:** architectural flexibility has real integration and maintenance cost — and
->   the modularity argument only pays off if you actually need to swap runtime components.
-> - **Bottom line:** before the architecture conversation starts, the burden of proof runs the
->   other way — what does this do materially better for *your* workload?
+> - **What it is:** A direct competitor to Claude Code, Codex, Cline, and OpenCode — open-source, self-hostable, model-agnostic.
+> - **Where it wins:** Full auditability, replay-based CI testing, configurable agent loop, open ecosystem, no vendor lock-in.
+> - **Where it still has gaps:** Pre-1.0 API surface, thin benchmark documentation, smaller community ecosystem than Anthropic or OpenAI's toolchain.
+> - **Bottom line:** If you're choosing a coding agent in 2026, DeepSeek Harness belongs in the shortlist — not as an architectural curiosity, but as a genuine product contender.
 
 ---
 
-AI coding agents have created a new architectural question.
+## The mistake that gets made immediately
 
-Do you use a mature product — Claude Code, Codex? Build your own on top of DeepAgents, ADK, LangGraph? Or adopt a model-specific runtime like a DeepSeek-oriented harness?
+Most engineers read "DeepSeek Harness" and file it mentally alongside LangGraph, ADK, or CrewAI — agent orchestration frameworks you adopt to build your own agents. That's wrong.
 
-DeepSeek Harness looks attractive at first: an agent runtime built around composability, where major capabilities are treated as plugins. It's real, not hypothetical — DeepSeek open-sourced it on August 13, 2026, MIT license, built on a plugin framework called Cordis, with a stated formula: Agent = Model + Harness.
+DeepSeek Harness is a **coding agent** in the same sense Claude Code and Codex are coding agents: you install it, configure it, point it at a repository, and it writes, edits, runs, and tests code for you. The plugin architecture is an internal implementation choice, not the product pitch.
 
-But look at the architecture from a staff-engineering angle and one distinction matters more than it seems:
+The correct comparison set is:
 
-**A technically interesting harness isn't automatically a compelling foundation for an enterprise agent platform.**
+| Tool | Vendor | License | Model | Self-host |
+|---|---|---|---|---|
+| Claude Code | Anthropic | Proprietary | Claude only | ❌ |
+| Codex | OpenAI | Proprietary | GPT-4o family | ❌ |
+| Cline | OSS | MIT | Any | ✅ |
+| OpenCode | OSS | MIT | Any | ✅ |
+| **DeepSeek Harness** | **DeepSeek** | **MIT** | **Any (optimized for DeepSeek)** | **✅** |
 
-That distinction is the whole piece.
+That's a very different conversation from "should we use this instead of LangGraph."
 
-## Model, agent, harness — three different things
+---
 
-These get mixed together constantly.
+## What DeepSeek actually shipped
 
-The **model** is the reasoning engine — DeepSeek, GPT, Claude, Kimi, GLM.
+The harness delivers a complete, working coding agent out of the box. Here's what that means concretely:
 
-The **agent** is model plus an execution loop plus tools: reason, call a tool, observe the result, reason again, repeat. This is the pattern the field has been running on since the 2022 ReAct paper — reason-and-act interleaved — with most of what came after (Reflexion, AutoGPT, MetaGPT) being variations on the same loop rather than a departure from it.
+### The agent loop — and the ability to change it
 
-The **harness** is the infrastructure controlling that loop — tool execution, context and session management, permissions, filesystem access, sandboxing, orchestration, state, and sometimes the loop itself.
+The standard coding agent loop looks like this:
 
-Stacked simply:
+```
+Reason → call tool → observe result → reason → call tool → …
+```
+
+Every agent from AutoGPT to Claude Code runs some variant of this. The key architectural difference in DeepSeek Harness is that **the loop itself is a plugin**. You can replace it.
+
+This isn't just theoretical. Teams that need more structured workflows — code review pipelines, multi-phase refactors, CI-driven repair loops — can wire in alternatives like:
+
+```
+Planner → parallel workers → Verifier → Critic → Fixer → Verifier
+```
+
+Without forking the whole agent. That flexibility is non-trivial and genuinely absent from Claude Code or Codex.
+
+### Full session-log invariant
+
+Every model call in DeepSeek Harness is checked against a complete, tamper-evident session log. The agent cannot proceed if the observed session state doesn't match the logged state.
+
+The operational benefit: **you always know exactly what the model saw**. No guessing, no reconstructed context from partial logs. When something goes wrong — and in production, things go wrong — you replay the session and see the precise inputs and tool outputs.
+
+Claude Code produces execution traces. Codex has usage logs. Neither enforces the session-log invariant as a hard runtime constraint the way DeepSeek Harness does.
+
+### Replay-based CI testing
+
+This follows directly from the session log. The workflow:
+
+1. Record a real agent session against a real repository.
+2. Commit the session log to version control.
+3. In CI, replay the session against a mocked model — no API keys, no external calls, no LLM-judge flakiness.
+4. Diff the output against the expected behavior.
+
+This is how you test an agent the way you test software, not the way you hope the LLM makes similar choices on retry.
+
+For any team running agents in production, this is a first-class capability. Current alternatives mostly rely on evals that re-invoke the model and accept non-determinism as a given. Replay-based testing is a meaningfully different and stronger guarantee.
+
+### Fail-closed sandbox
+
+If the sandbox cannot properly confine a tool call, it refuses to execute it and returns a structured error to the model. The model is fine-tuned to respond to that error by reformulating the request rather than retrying the same unsafe call.
+
+The implication: privilege escalation and sandbox escape attempts degrade gracefully rather than silently succeeding or producing undefined behavior.
+
+---
+
+## The architecture underneath
+
+Understanding why the product works the way it does requires a look at the Cordis plugin core.
 
 ```mermaid
 graph TD
-    A[Application] --> B[Agent]
-    B --> C["Harness<br/>(context / tools / loop / sessions / sandbox / state)"]
-    C --> D["Model<br/>(DeepSeek / GPT / Claude…)"]
+    A["Web UI / CLI"] --> B["Agent Core (Cordis plugin kernel)"]
+    B --> C1["Model Plugin\n(DeepSeek / OpenAI-compat / local)"]
+    B --> C2["Tool Plugin\n(filesystem / terminal / browser / MCP)"]
+    B --> C3["Session Plugin\n(log invariant / replay)"]
+    B --> C4["Sandbox Plugin\n(fail-closed execution)"]
+    B --> C5["Agent Loop Plugin\n(ReAct / custom / multi-agent)"]
 ```
 
-Which immediately explains something: **Claude Code, Codex, and an agent framework are not the same thing.**
+Cordis is a dependency/lifecycle manager with a service bus — mount and unmount components, wire events between them, enforce startup/shutdown ordering. DeepSeek ships a vendored fork of it (renamed into their package scope, patched locally) specifically so the harness fully owns its framework layer rather than depending on upstream Cordis release cadence.
 
-There's arguably a fourth layer worth naming here too, one that sits between harness and model rather than inside either: the tool/context interface itself. Since MCP shipped in late 2024, that interface has become the one place the industry has actually converged — a thin, stable contract that lets harnesses and models vary independently above and below it. It's the reason a company can wire DeepSeek into LangGraph without adopting anything DeepSeek-specific at all. Harnesses compete above that line; models compete below it.
+That's worth flagging: **the plugin kernel is not shared open infrastructure**. It's DeepSeek's private fork under MIT, which means downstream adopters can't independently track upstream Cordis changes — they depend on DeepSeek's fork. For most users that's a non-issue; for infra teams evaluating long-term maintenance cost, it's worth noting.
 
-## Claude Code and Codex are solving a different problem
+The model layer deserves specific attention. DeepSeek Harness is built first for DeepSeek's own V4-Pro model, which has been fine-tuned for:
 
-If the goal is "give our developers a good coding agent," you usually don't want to build an agent runtime.
+- Structured tool calling with harness-specific error conventions
+- Responding correctly to sandbox refusals
+- Session-log-aware reasoning (the model knows what it has and hasn't seen)
 
-You want repository exploration, code editing, terminal execution, tool calls, permissions, context management, testing, and recovery already solved — plus decent developer UX.
+That's a meaningful edge over dropping a generic model into the same harness. You can use GPT-4o or Claude through an OpenAI-compatible adapter, but you won't get the same behavioral guarantees at the edges.
 
-That's the appeal of Claude Code and Codex. They're essentially finished products.
+---
 
-Their internals aren't the extension point. You add MCP servers, tools, skills, integrations — but that's different from replacing the runtime itself.
+## Where it genuinely beats Claude Code and Codex
 
-Most companies shouldn't rebuild this just to prove they can. A team with a year of production telemetry and a hundred engineers iterating on recovery, permissions, and UX is going to beat a bespoke internal build almost every time — that's not really an architecture argument, it's a "who has more engineering hours" argument.
+This isn't a polite "different tools for different jobs" section. On some dimensions, DeepSeek Harness is concretely ahead.
 
-## So what's the appeal of a DeepSeek-style harness?
+**Auditability.** The session-log invariant is a stronger guarantee than any of the existing commercial agents offer. For regulated industries, financial services, or anywhere a code change audit trail matters, this is a real differentiator.
 
-It's not "another coding assistant." It's the composability of the runtime itself.
+**Open, self-hostable, no egress.** Claude Code requires Anthropic's API and sends your code to Anthropic's infrastructure. Codex requires OpenAI. DeepSeek Harness can run entirely on-premise with a local model. For air-gapped environments or data-sensitive organizations, the choice is clear.
 
-Instead of:
+**Configurable loop.** If your team needs more than "reason-tool-observe," you can change the loop without maintaining a fork of the agent. Claude Code's loop is not an extension point. Codex's loop is not an extension point.
 
-```
-Agent
- ├── filesystem
- ├── terminal
- ├── memory
- ├── model
- └── agent loop
-```
+**Model agnosticism in practice.** Because the model layer is a plugin with a well-defined interface, switching from DeepSeek V4-Pro to Qwen, Kimi, or a fine-tuned internal model is a configuration change, not a migration. That matters for teams who want to benchmark models against their actual workload.
 
-think of it as:
+**Replay-based testing.** No other production-ready coding agent has shipped this capability. It's that simple.
 
-```
-Harness
- ├── model plugin
- ├── tool plugin
- ├── filesystem plugin
- ├── session plugin
- ├── sandbox plugin
- └── agent-loop plugin
-```
+---
 
-That's what "everything is a plugin" actually means — the loop itself becomes replaceable, not a fixed implementation detail. Underneath the slogan, the actual plugin kernel — Cordis — is a fairly classic dependency/lifecycle manager: mount, unmount, wire services and events between components. It's the same instinct behind the old microkernel-versus-monolith argument from operating systems in the 90s, just aimed at agent runtimes instead of kernels. Smaller trusted core, more interfaces, more flexibility, more integration tax — the trade hasn't really changed, only the domain has.
+## Where it still has gaps
 
-Which is genuinely interesting if you're doing agent infrastructure work. You can experiment with something like:
+Being fair in the other direction:
 
-```
-Planner → parallel workers → Verifier → Critic → Fixer → final verifier
-```
+**Pre-1.0 API surface.** DeepSeek is explicit: the API will break before 1.0. Teams can't pin to a stable harness interface and expect continuity. Claude Code and Codex, whatever their other limitations, are products with backward-compatibility commitments.
 
-instead of being stuck with the standard:
+**Ecosystem depth.** Claude Code has months of community tooling, IDE integrations, prompt libraries, and operator experience. DeepSeek Harness is weeks old. Ecosystem maturity matters for day-to-day productivity and for finding answers when things break.
 
-```
-Reason → tool → observe → reason → tool
-```
+**Benchmark transparency.** The published performance documentation for the release is essentially a stub. There are no published eval results with methodology, test sets, or reproducible baselines. It's hard to compare capability objectively without that.
 
-A few concrete engineering choices in the shipped runtime are worth calling out on their own, whether or not you ever adopt the whole thing:
+**Single squashed commit history.** The public repository launched with no meaningful commit history — a single squash representing the full internal development. For teams that care about the security posture of their dependencies (change attribution, vulnerability tracking, code review trail), this is an unusual signal.
 
-- **Full session-log invariant:** every model call is checked against a complete session log, so you can always reconstruct exactly what the model saw — no guessing after the fact.
-- **Replay-based testing:** testing reuses those same logs — record one real session, replay it against a mocked model, diff the output. No API keys in CI, no flaky "LLM judges the test" setup.
-- **Fail-closed sandbox:** if the sandbox can't confine a tool call properly, it refuses to run it, and the model is trained to ask again with a reason instead of getting stuck.
+**Model-specific optimizations aren't free.** The harness is fine-tuned around DeepSeek V4-Pro's behavior. Plugging in a different model gets you a working agent, but some of the more interesting guarantees (sandbox failure handling, session-log-aware reasoning) depend on model behavior DeepSeek specifically trained for. Third-party models may not match.
 
-## But an elegant architecture isn't automatically a good enterprise choice
+---
 
-Here's where it gets harder.
+## The strategic picture
 
-Say a company already has:
+Why did DeepSeek release a full coding agent alongside a harness architecture?
 
-```
-Existing AI platform
-  ├── model gateway
-  ├── authentication
-  ├── tools
-  ├── observability
-  ├── security
-  ├── deployment
-  ├── data layer
-  └── agent framework
-```
+The answer isn't mysterious. Look at where the coding agent market was converging:
 
-Adding another runtime means adding another integration boundary:
+- **Anthropic:** Claude → Claude Code → closed loop.
+- **OpenAI:** GPT-4o → Codex → closed loop.
+- **Google:** Gemini → Jules → closed loop.
 
-```
-Your platform → adapter → DeepSeek Harness
-                            ├── model abstraction
-                            ├── tools
-                            ├── sessions
-                            ├── filesystem
-                            └── agent loop
-```
+In each case, the model vendor controls both the model and the agent on top of it. The ecosystem integrates with their agent; their agent is optimized for their model. DeepSeek — primarily a model lab — faced a structural disadvantage: even if the DeepSeek model was better, the agent experience would always be shaped by someone else's product decisions.
 
-Now your engineers need to understand two architectures instead of one.
+A harness is the answer to that problem. Not as an infrastructure play (though it enables that), but as a **distribution and experience layer** for their own model. By releasing a full, competitive coding agent under MIT, DeepSeek:
 
-That's real cost — integration, operational complexity, debugging, security review, observability, upgrades, hiring, long-term maintenance.
+1. Controls the full stack from model to developer experience.
+2. Creates a reference implementation that demonstrates what DeepSeek V4-Pro can actually do.
+3. Offers the open-source community something Claude Code and Codex cannot: full transparency and self-hosting.
 
-Modularity doesn't mean integrating it into another modular system is cheap. It's also worth being clear-eyed about how neutral this particular piece of modularity actually is: DeepSeek didn't build on top of upstream Cordis, they vendored a fork of it — patched locally, renamed into their own package scope, explicitly so the harness would "fully own its framework layer." That's a defensible engineering call, but it means the plugin kernel isn't shared open infrastructure the way a protocol is; it's DeepSeek's private fork wearing an open license, and every future upstream Cordis release becomes a merge exercise against a fork DeepSeek controls, not something a downstream adopter can lean on independently.
+It's a sensible strategic move, and the product is strong enough to back it.
 
-## The multi-model problem matters more
+---
 
-Enterprises rarely want to bet everything on one model.
+## How to evaluate it for your team
 
-A realistic platform looks like:
-
-```
-Company Agent
-  ├── DeepSeek (adapter)
-  ├── GPT (adapter)
-  └── Claude (adapter)
-```
-
-Which raises the question: **how model-neutral is the harness, really?**
-
-Models aren't interchangeable — tool-calling semantics, reasoning state, streaming, structured output, context management, caching, parallel tool calls, multimodal input, token accounting, error handling all differ.
-
-DeepSeek's ecosystem is actively documenting integrations with a lot of existing agent and coding tools — Claude Code, Codex, OpenCode, Pi, Cline, others.
-
-That matters. It suggests **DeepSeek doesn't need the whole ecosystem to adopt a DeepSeek-specific harness just to use DeepSeek models.**
-
-Their own integration guide, for example, shows DeepSeek configured as an OpenAI-compatible provider inside Pi — not requiring a DeepSeek-specific runtime.
-
-So a company can build on DeepAgents, ADK, or LangGraph on top of DeepSeek, without touching the DeepSeek Harness at all.
-
-One detail sharpens the neutrality question: Harness ships as an MCP *client* only — it consumes MCP servers but doesn't expose itself as one. For a project whose whole pitch is "everything is a plugin, nothing is locked in," that's a quiet signal about where DeepSeek actually wants to compete — one layer above the interoperability substrate, not inside it.
-
-## Which is the real question
-
-Why choose DeepSeek Harness over DeepAgents, ADK, or LangGraph?
-
-A framework like DeepAgents starts from "here's a framework for building agents." A modular harness starts from "here's a runtime whose components can themselves be replaced."
-
-The second gives you more freedom. Freedom has a price.
-
-The more components you make replaceable, the more interfaces you have to define and maintain — model interface, tool interface, session interface, filesystem interface, memory interface, sandbox interface, loop interface, orchestration interface.
-
-A staff engineer should be asking: **which of these abstractions solve a problem we actually have** — not how many things can be made pluggable.
-
-## "Everything is a plugin" is a capability, not a justification
-
-Plugin architectures sound impressive because they promise flexibility. Flexibility only has value when requirements actually change.
-
-If a company genuinely needs to experiment across multiple agent loops, multiple models, multiple memory systems, multiple sandboxes — a highly modular harness earns its complexity.
-
-But if the actual requirement is "give 5,000 developers a reliable coding assistant," the priority is reliability, security, performance, cost, developer experience, observability, support — not whether you can swap out the filesystem implementation.
-
-That's the line between an interesting architecture and a useful product.
-
-## Why would DeepSeek release a harness at all?
-
-The strongest explanation is strategic, not operational.
-
-If DeepSeek only ships a model — DeepSeek → API → someone else's agent — it controls the model layer and has almost no influence over the agent layer above it. The ecosystem could just converge toward Claude → Claude Code, GPT → Codex, and DeepSeek ends up as another model provider sitting underneath someone else's infrastructure.
-
-A harness lets DeepSeek compete one layer up. The goal, most likely, is to influence the agent stack — not just sell API calls. Given the earlier point about MCP, this reads as fairly deliberate: DeepSeek can't win the narrow-waist layer (that standard has already converged and isn't theirs to own), so the rational move is to compete where the questions are still open — one layer up, in orchestration.
-
-That's a reasonable strategy even if most enterprises never adopt the harness directly.
-
-## Who this is actually for
-
-Not "every company." Narrower than that:
-
-| Audience | What they need |
-|---|---|
-| Agent infrastructure builders | Deep control over execution loops, long-running tasks, tool orchestration, model routing, memory, sandboxing, permissions, subagents, recovery, evaluation |
-| Agent researchers | The ability to swap the loop itself, not just tweak prompts |
-| Teams building primarily on DeepSeek | Model-specific optimizations a generic framework won't expose |
-
-Very different needs from a team that just wants an AI pair programmer.
-
-## The burden of proof runs the other way
-
-The question isn't "why aren't we using DeepSeek Harness?" It's:
-
-**"What can this actually do materially better for our workload than the mature alternatives?"**
-
-A convincing answer looks like one of these:
-
-| Type of advantage | What it would actually look like |
-|---|---|
-| Better DeepSeek-specific performance | Measurable gains from harness-level understanding of model behavior |
-| Better long-running agents | A stronger architecture for tasks running hundreds or thousands of steps |
-| Better runtime experimentation | Swapping loop, memory, sandbox, or orchestration is genuinely easier than in competing frameworks |
-| Better DeepSeek ecosystem integration | It becomes the reference runtime for getting max performance out of DeepSeek's agent-oriented models |
-
-Without one of those, the modularity by itself isn't enough. It's also worth weighing this against what's not there yet: the published benchmark documentation for the release is essentially a stub with no eval methodology, and the full internal development history landed as a single squashed commit with no review trail. Neither is disqualifying for a developer preview — DeepSeek is upfront that the API surface is pre-1.0 and will break — but they're the kind of thing a due-diligence process checks before the architecture conversation even starts.
-
-## A practical decision framework
-
-For most organizations it comes down to:
+The decision isn't "harness vs. framework." It's "which coding agent fits our constraints."
 
 ```mermaid
 flowchart TD
-    A[Need a coding agent?] -->|Yes| B[Use a mature product<br/>Claude Code, Codex]
-    A -->|No, building a platform| C{Standard agent<br/>requirements?}
-    C -->|Yes| D[DeepAgents, ADK, LangGraph]
-    C -->|No, need to experiment<br/>with the runtime itself| E[Consider a modular<br/>harness architecture]
+    A{Data sensitivity or\nair-gap requirement?} -->|Yes| B[DeepSeek Harness\nor Cline on local model]
+    A -->|No| C{Need audit trail\nor replay-based CI?}
+    C -->|Yes| D[DeepSeek Harness\nis the strongest option today]
+    C -->|No| E{Need configurable\nagent loop?}
+    E -->|Yes| F[DeepSeek Harness\nor custom framework]
+    E -->|No| G{Stable API and\necosystem depth matter?}
+    G -->|Yes| H[Claude Code or Codex]
+    G -->|No| I[Evaluate all four:\nHarness, Cline, Claude Code, Codex]
 ```
 
-That last category is the one where DeepSeek Harness gets interesting — not because plugins are automatically better, but because the problem actually requires architectural replaceability.
+If your team is in an enterprise context with data governance requirements and you need a coding agent — DeepSeek Harness should be on the shortlist right now, pre-1.0 surface and all.
+
+---
 
 ## Conclusion
 
-DeepSeek Harness's significance is easy to misread.
+The framing that matters: **DeepSeek Harness is a coding agent, not an agent framework**.
 
-It's not "DeepSeek built a better Claude Code." It's also not "companies should stop using Codex and Claude Code and build their own agents."
+It competes with Claude Code and Codex on the same ground — developer experience, code editing, terminal execution, sandboxing, tool use, multi-step task completion. On several dimensions it is genuinely ahead: auditability via the session-log invariant, replay-based CI testing, open self-hosting, and configurable execution loops.
 
-The better read: **DeepSeek is positioning itself beyond the model layer, experimenting with the runtime layer of agent systems** — in a spot the protocol layer (MCP) has already settled around it, which is precisely why the runtime layer is still worth fighting for.
+It has real gaps: a pre-1.0 API, thin benchmark documentation, a young ecosystem, and model-specific optimizations that only fully activate with DeepSeek V4-Pro.
 
-From an engineering standpoint, that doesn't make it the obvious choice. For most companies, mature coding agents remain the pragmatic pick. For teams building custom agents, established frameworks — DeepAgents, ADK, LangGraph — already give you an easier starting point for multi-model systems.
+The senior staff engineer read is: **this is not a curiosity to watch from the sidelines**. It's a serious product with a clear architectural thesis, released under the most permissive license in the space, from a team that has repeatedly shipped things the rest of the industry underestimated.
 
-A DeepSeek-specific harness has to show a concrete advantage — DeepSeek-native model behavior, long-horizon execution, runtime-level experimentation — before the extra integration and maintenance cost is worth it. A few of its internal patterns, notably the enforced session-log invariant and the replay-based testing built on it, are worth studying on their own regardless of that verdict.
-
-So the right conclusion isn't "DeepSeek Harness is unnecessary." It's: **DeepSeek Harness is potentially valuable at the infrastructure layer, but its value depends entirely on whether you actually need control of the harness itself.**
-
-That's a much higher bar than "everything is a plugin."
+Evaluate it against your actual requirements. If data sovereignty, auditability, or loop customization matter to your team — you'll find it holds up.
